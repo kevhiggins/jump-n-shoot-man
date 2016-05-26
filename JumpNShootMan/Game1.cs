@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using JumpNShootMan.Game;
 using JumpNShootMan.Game.Maps;
+using MonoGame.Extended.Maps.Tiled;
 
 namespace JumpNShootMan
 {
@@ -46,14 +47,16 @@ namespace JumpNShootMan
 
             //            int[,] map1 = {{, , , EmptyTle, EmptyTile, EmptyTile, EmptyTile, EmptyTile, EmptyTile, EmptyTile, } };
 
-//            var mapPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Game\Maps\data\map-1.csv");
-         //   var mapPath = Path.Combine(Environment.CurrentDirectory, @"Game\Maps\data\map-1.csv");
+            //            var mapPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Game\Maps\data\map-1.csv");
+            //   var mapPath = Path.Combine(Environment.CurrentDirectory, @"Game\Maps\data\map-1.csv");
 
-//            Debug.WriteLine(mapPath);
+            //            Debug.WriteLine(mapPath);
 
-        //    var tileMap = new TileMap(mapPath);
-          //  tileMap.Initialize();
+            //    var tileMap = new TileMap(mapPath);
+            //  tileMap.Initialize();
+
             
+
             jumpNShootMan = new Man(texture, new Vector2(50, 400));
 
             base.Initialize();
@@ -67,6 +70,7 @@ namespace JumpNShootMan
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            var tiledMap = Content.Load<TiledMap>("Maps/level-1/level-1");
 
             // TODO: use this.Content to load your game content here
         }
