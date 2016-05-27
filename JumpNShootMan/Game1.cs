@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using JumpNShootMan.Game;
-using JumpNShootMan.Game.Maps;
+using JumpNShootMan.Game.Tiled;
 using MonoGame.Extended.Maps.Tiled;
 
 namespace JumpNShootMan
@@ -21,6 +21,10 @@ namespace JumpNShootMan
         private GraphicsDeviceManager graphics;
         private Man jumpNShootMan;
         private SpriteBatch spriteBatch;
+        public TiledMap tiledMap;
+        public const int TILE_WIDTH = 32;
+        public const int TILE_HEIGHT = 32;
+
 
         // Create TileMap class // Needs to compare it's tiles to the Man, and anything else that could collide with them.
         // Add horizontal movement to man
@@ -30,6 +34,9 @@ namespace JumpNShootMan
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 800;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = 800;   // set this value to the desired height of your window
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -41,9 +48,10 @@ namespace JumpNShootMan
         /// </summary>
         protected override void Initialize()
         {
+            Debug.WriteLine("TEST0");
             // TODO: Add your initialization logic here
-            var texture = new Texture2D(GraphicsDevice, 20, 40);
-            ColorTexture(texture, Color.Red);
+         //   var texture = new Texture2D(GraphicsDevice, 20, 40);
+         //   ColorTexture(texture, Color.Red);
 
             //            int[,] map1 = {{, , , EmptyTle, EmptyTile, EmptyTile, EmptyTile, EmptyTile, EmptyTile, EmptyTile, } };
 
@@ -54,10 +62,6 @@ namespace JumpNShootMan
 
             //    var tileMap = new TileMap(mapPath);
             //  tileMap.Initialize();
-
-            
-
-            jumpNShootMan = new Man(texture, new Vector2(50, 400));
 
             base.Initialize();
         }
@@ -70,9 +74,23 @@ namespace JumpNShootMan
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            var tiledMap = Content.Load<TiledMap>("Maps/level-1/level-1");
+            tiledMap = Content.Load<TiledMap>("Maps/level-1/level-1");
 
-            // TODO: use this.Content to load your game content here
+            var gameObjectsLayer = tiledMap.GetObjectGroup("GameObjects");
+            if (gameObjectsLayer == null)
+            {
+                throw new Exception("Could not find object layer");    
+            }
+            var playerStartObject = TiledHelper.FindObject("PlayerStart", gameObjectsLayer.Objects);
+            if (playerStartObject == null)
+            {
+                throw new Exception("No player start point defined");
+            }
+
+            var manTexture = Content.Load<Texture2D>("Objects/player");
+
+            jumpNShootMan = new Man(manTexture, new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height));
+            jumpNShootMan.TileMap = tiledMap;
         }
 
         /// <summary>
@@ -95,6 +113,7 @@ namespace JumpNShootMan
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            jumpNShootMan.Update(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -119,8 +138,8 @@ namespace JumpNShootMan
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             spriteBatch.Begin();
+            tiledMap.Draw(spriteBatch);
             spriteBatch.Draw(jumpNShootMan.Texture, jumpNShootMan.Position);
             spriteBatch.End();
 

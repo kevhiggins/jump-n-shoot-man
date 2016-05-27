@@ -6,8 +6,7 @@ namespace JumpNShootMan.Game
     abstract class Sprite : ISprite
     {
         public Texture2D Texture { get; }
-
-        public Vector2 Position { get; }
+        public Vector2 Position { get; protected set; }
 
         protected Sprite(Texture2D texture, Vector2 position)
         {
