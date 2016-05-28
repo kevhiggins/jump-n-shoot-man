@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using MonoGame.Extended.Maps.Tiled;
 
 namespace JumpNShootMan.Game.Tiled
@@ -35,21 +37,35 @@ namespace JumpNShootMan.Game.Tiled
 
         public static TiledTile[] GetAdjacentTiles(int x, int y, TiledTileLayer tileLayer)
         {
-            // Offset the position to the upper left most tile
-            x--;
-            y--;
+            var tiles = new TiledTile[9];
+            // TODO change to loop
+            tiles[0] = tileLayer.GetTile(x - 1, y - 1);
+            tiles[1] = tileLayer.GetTile(x, y - 1);
+            tiles[2] = tileLayer.GetTile(x, y + 1);
 
-            var tiles = new TiledTile[8];
-            
+            tiles[3] = tileLayer.GetTile(x - 1, y);
+            tiles[4] = tileLayer.GetTile(x, y);
+            tiles[5] = tileLayer.GetTile(x + 1, y);
 
-            for (int i = x; i < x + 3; i++)
-            {
-                for (int j = y; j < y + 3; j++)
-                {
+            tiles[6] = tileLayer.GetTile(x - 1, y + 1);
+            tiles[7] = tileLayer.GetTile(x, y + 1);
+            tiles[8] = tileLayer.GetTile(x + 1, y + 1);
 
-                    
-                }
-            }
+//            Debug.WriteLine(tiles[6].Id);
+//            Debug.WriteLine(tiles[6].X);
+//            Debug.WriteLine(tiles[6].Y);
+//            System.Environment.Exit(0);
+
+            return tiles;
+        }
+
+        public static Rectangle FindTileRectangle(Rectangle rectangleObject, TiledMap tileMap)
+        {
+            var center = rectangleObject.Center;
+            var x = (int)Math.Floor((double) center.X/tileMap.TileWidth);
+            var y = (int)Math.Floor((double) center.Y/tileMap.TileHeight);
+
+            return new Rectangle(x, y, tileMap.TileWidth, tileMap.TileHeight);
         }
     }
 }
