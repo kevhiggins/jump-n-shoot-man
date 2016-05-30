@@ -1,5 +1,7 @@
-﻿Add walking controls
-Add collision checking with obstacles
+﻿Fix partial jumping not working
+Someday fix slurping around corners
+
+
 Add jumping
 Add shooting
 Add enemies

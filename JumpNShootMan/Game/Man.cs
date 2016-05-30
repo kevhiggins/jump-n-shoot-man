@@ -50,11 +50,11 @@ namespace JumpNShootMan.Game
         private const float MoveAcceleration = 7000.0f;
         private const float MaxMoveSpeed = 600.0f;
         private const float GroundDragFactor = 0.48f;
-        private const float AirDragFactor = 0.58f;
+        private const float AirDragFactor = 0.48f;
 
         // Constants for controlling vertical movement
         private const float MaxJumpTime = 0.2f;
-        private const float JumpLaunchVelocity = -530.0f;
+        private const float JumpLaunchVelocity = -370.0f;
         private const float GravityAcceleration = 2000.0f;
         private const float MaxFallSpeed = 550.0f;
         private const float JumpControlPower = 0.1f;
@@ -159,11 +159,39 @@ namespace JumpNShootMan.Game
             HandleCollisions();
 
 
+            CheckBottomMapCollision();
 //          If the collision stopped us from moving, reset the velocity to zero.
 //            if (Position.X == previousPosition.X)
 //                velocity.X = 0;
 //            if (Position.Y == previousPosition.Y)
 //                velocity.Y = 0;
+
+        }
+
+        private void CheckBottomMapCollision()
+        {
+            if (Position.Y > TileMap.HeightInPixels)
+            {
+                Position = StartPosition();
+                // Reset to start point
+            }
+        }
+
+        public Vector2 StartPosition()
+        {
+            
+            var gameObjectsLayer = TileMap.GetObjectGroup("GameObjects");
+            if (gameObjectsLayer == null)
+            {
+                throw new Exception("Could not find object layer");
+            }
+            var playerStartObject = TiledHelper.FindObject("PlayerStart", gameObjectsLayer.Objects);
+            if (playerStartObject == null)
+            {
+                throw new Exception("No player start point defined");
+            }
+
+            return new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height);
 
         }
 
@@ -206,7 +234,8 @@ namespace JumpNShootMan.Game
                 {
                     // Fully override the vertical velocity with a power curve that gives players more control over the top of the jump
                     //velocityY = JumpLaunchVelocity * (1.0f - (float)Math.Pow(jumpTime / MaxJumpTime, JumpControlPower));
-                    velocityY = JumpLaunchVelocity * (float)(jumpTime / MaxJumpTime);
+                    //                    velocityY = JumpLaunchVelocity * (float)(jumpTime / MaxJumpTime);
+                    velocityY = JumpLaunchVelocity;
                 }
                 else
                 {
@@ -256,8 +285,9 @@ namespace JumpNShootMan.Game
             // For each potentially colliding tile,
             foreach (var adjacentTile in adjacentTiles)
             {
+
                 // Tile is not collidable. Continue loop.
-                if (adjacentTile.Id == 0)
+                if (adjacentTile == null || adjacentTile.Id == 0)
                     continue;
 
                 // Determine collision depth (with direction) and magnitude.
@@ -299,7 +329,11 @@ namespace JumpNShootMan.Game
             if (obstructedOnX)
                 velocity.X = 0;
             if (obstructedOnY)
+            {
                 velocity.Y = 0;
+                if(isJumping)
+                    jumpTime = MaxJumpTime;
+            }
 
             // Save the new bounds bottom.
             previousBottom = bounds.Bottom;
