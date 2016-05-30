@@ -20,7 +20,5 @@ namespace JumpNShootMan.Game
 
 
         public abstract void Update(GameTime gameTime);
-
-
     }
 }

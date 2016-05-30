@@ -38,17 +38,17 @@ namespace JumpNShootMan.Game.Tiled
         public static TiledTile[] GetAdjacentTiles(int x, int y, TiledTileLayer tileLayer)
         {
             var tiles = new TiledTile[9];
-            // TODO change to loop
-            tiles[0] = tileLayer.GetTile(x - 1, y - 1);
-            tiles[1] = tileLayer.GetTile(x, y - 1);
+            // TODO change to loop, and prevent wrapping
+            tiles[0] = tileLayer.GetTile(x, y - 1); 
+            tiles[1] = tileLayer.GetTile(x - 1, y - 1);
             tiles[2] = tileLayer.GetTile(x, y + 1);
 
             tiles[3] = tileLayer.GetTile(x - 1, y);
             tiles[4] = tileLayer.GetTile(x, y);
             tiles[5] = tileLayer.GetTile(x + 1, y);
 
-            tiles[6] = tileLayer.GetTile(x - 1, y + 1);
-            tiles[7] = tileLayer.GetTile(x, y + 1);
+            tiles[6] = tileLayer.GetTile(x, y + 1); 
+            tiles[7] = tileLayer.GetTile(x - 1, y + 1);
             tiles[8] = tileLayer.GetTile(x + 1, y + 1);
 
 //            Debug.WriteLine(tiles[6].Id);
