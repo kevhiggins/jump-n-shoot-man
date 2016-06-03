@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using JumpNShootMan.Game;
 using JumpNShootMan.Game.Tiled;
 using MonoGame.Extended.Animations;
 using MonoGame.Extended.Maps.Tiled;
-using MonoGame.Extended.Sprites;
+using JumpNShootMan.Sprites;
+
 using SpriteSheetAnimator = JumpNShootMan.Game.SpriteSheetAnimator;
+using Microsoft.Xna.Framework.Input;
 
 namespace JumpNShootMan
 {
@@ -114,9 +113,9 @@ namespace JumpNShootMan
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-//            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-//                Keyboard.GetState().IsKeyDown(Keys.Escape))
-        //        Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
 
             jumpNShootMan.Update(gameTime);
             // TODO: Add your update logic here
@@ -145,6 +144,11 @@ namespace JumpNShootMan
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null);
             tiledMap.Draw(spriteBatch);
+            //spriteBatch.Draw(jumpNShootMan.Sprite.TextureRegion.Texture, jumpNShootMan.Sprite.Position);
+
+            var sprite = jumpNShootMan.Sprite;
+          //  spriteBatch.Draw(sprite.TextureRegion.Texture, sprite.Position + sprite.Origin, sourceRectangle: sprite.TextureRegion.Bounds, color: sprite.Color * sprite.Alpha, rotation: sprite.Rotation, origin: sprite.Origin);
+
             spriteBatch.Draw(jumpNShootMan.Sprite);
             spriteBatch.End();
 

@@ -97,7 +97,10 @@ namespace JumpNShootMan.Game
             {
                 State = ManState.Jumping;
             }
+            //Position = new Vector2(Position.X, Position.Y + 10);
             UpdateAnimation();
+            Debug.WriteLine(Position);
+            Debug.WriteLine(Bounds);
             Animator.Update(gameTime);
         }
 
