@@ -1,0 +1,29 @@
+{
+  "TextureAtlas": "jumpman-atlas.json",
+  "Animations": [
+    {
+      "Name": "Walk",
+      "FramesPerSecond": 6,
+      "Frames": [
+        "jumpnshootcolors_MID",
+        "jumpnshootcolors_RIGHT",
+        "jumpnshootcolors_MID",
+        "jumpnshootcolors_LEFT"
+      ]
+    },
+    {
+      "Name": "Idle",
+      "FramesPerSecond": 8,
+      "Frames": [
+        "jumpnshootcolors_IDLE"
+      ]
+    },
+    {
+      "Name": "Jump",
+      "FramesPerSecond": 8,
+      "Frames": [
+        "jumpnshootcolors_JUMP"
+      ]
+    }
+  ]
+}

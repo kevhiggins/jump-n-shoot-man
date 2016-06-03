@@ -3,15 +3,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace JumpNShootMan.Game
 {
-    abstract class Sprite : ISprite
+    abstract class ZSprite : ISprite
     {
         public Texture2D Texture { get; }
         public Vector2 Position { get; protected set; }
 
-        protected Sprite(Texture2D texture, Vector2 position)
+        protected ZSprite(Texture2D texture, Vector2 position)
         {
-            Texture = texture;
-            Position = position;
+//            Texture = texture;
+//            Position = position;
         }
 
         public abstract void Initialize();

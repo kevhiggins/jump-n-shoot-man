@@ -7,7 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using JumpNShootMan.Game;
 using JumpNShootMan.Game.Tiled;
+using MonoGame.Extended.Animations;
 using MonoGame.Extended.Maps.Tiled;
+using MonoGame.Extended.Sprites;
+using SpriteSheetAnimator = JumpNShootMan.Game.SpriteSheetAnimator;
 
 namespace JumpNShootMan
 {
@@ -89,7 +92,9 @@ namespace JumpNShootMan
 
             var manTexture = Content.Load<Texture2D>("Objects/player");
 
-            jumpNShootMan = new Man(manTexture, new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height));
+            var animationGroup = Content.Load<SpriteSheetAnimationGroup>("Sprites/jumpman-animations");
+
+            jumpNShootMan = new Man(new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height), new SpriteSheetAnimator(animationGroup));
             jumpNShootMan.TileMap = tiledMap;
         }
 
@@ -109,9 +114,9 @@ namespace JumpNShootMan
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+//            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+//                Keyboard.GetState().IsKeyDown(Keys.Escape))
+        //        Exit();
 
             jumpNShootMan.Update(gameTime);
             // TODO: Add your update logic here
@@ -138,9 +143,9 @@ namespace JumpNShootMan
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null);
             tiledMap.Draw(spriteBatch);
-            spriteBatch.Draw(jumpNShootMan.Texture, jumpNShootMan.Position);
+            spriteBatch.Draw(jumpNShootMan.Sprite);
             spriteBatch.End();
 
             // TODO: Add your drawing code here

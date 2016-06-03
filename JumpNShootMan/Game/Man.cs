@@ -5,20 +5,28 @@ using JumpNShootMan.Game.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Animations;
 using MonoGame.Extended.Maps.Tiled;
 
 namespace JumpNShootMan.Game
 {
-    class Man : Sprite
+    public enum ManState
+    {
+        Idle,
+        Walking,
+        Jumping
+    }
+
+    public enum ManDirection
+    {
+        Left,
+        Right
+    }
+
+    class Man : AnimatedSprite
     {
         public int Speed { get; } = 3;
         public int Gravity { get; } = 3;
-        public Vector2 Velocity
-        {
-            get { return velocity; }
-            set { velocity = value; }
-        }
-        private Vector2 velocity;
 
         /// <summary>
         /// Gets whether or not the player's feet are on the ground.
@@ -34,6 +42,8 @@ namespace JumpNShootMan.Game
         /// </summary>
         private float movement;
 
+        public ManDirection Direction { get; set; } = ManDirection.Right;
+        
         private bool isJumping;
         private bool wasJumping;
         private double jumpTime;
@@ -42,9 +52,10 @@ namespace JumpNShootMan.Game
 
 
         public TiledMap TileMap { get; set; }
-        public Rectangle Bounds => new Rectangle((int)Math.Round(Position.X + 10), (int)Math.Round(Position.Y), Texture.Width - 18, Texture.Height);
+        public Rectangle Bounds => new Rectangle((int)Math.Round(Position.X + 10), (int)Math.Round(Position.Y), (int)Sprite.GetBoundingRectangle().Width - 18, (int)Sprite.GetBoundingRectangle().Height);
 
-
+        public ManState State { get; set; }
+        private ManState lastState;
 
         // Constants for controling horizontal movement
         private const float MoveAcceleration = 7000.0f;
@@ -62,9 +73,8 @@ namespace JumpNShootMan.Game
         // Input configuration
         private const float MoveStickScale = 1.0f;
         private const Buttons JumpButton = Buttons.A;
-
-
-        public Man (Texture2D texture, Vector2 position) : base(texture, position)
+        
+        public Man(Vector2 position, SpriteSheetAnimator animator) : base(position, animator)
         {
         }
 
@@ -83,6 +93,32 @@ namespace JumpNShootMan.Game
             GetInput(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
 
             ApplyPhysics(gameTime);
+            if (IsOnGround == false)
+            {
+                State = ManState.Jumping;
+            }
+            UpdateAnimation();
+            Animator.Update(gameTime);
+        }
+
+        public void UpdateAnimation()
+        {
+            if (lastState != State)
+            {
+                switch (State)
+                {
+                    case ManState.Idle:
+                        Animator.PlayAnimation("Idle");
+                        break;
+                    case ManState.Walking:
+                        Animator.PlayAnimation("Walk");
+                        break;
+                    case ManState.Jumping:
+                        Animator.PlayAnimation("Jump");
+                        break;
+                }
+            }
+            lastState = State;
         }
 
 
@@ -121,6 +157,18 @@ namespace JumpNShootMan.Game
                 keyboardState.IsKeyDown(Keys.Space) ||
                 keyboardState.IsKeyDown(Keys.Up) ||
                 keyboardState.IsKeyDown(Keys.W);
+
+            if (movement < 0)
+            {
+                Direction = ManDirection.Left;
+            } else if (movement > 0)
+            {
+                Direction = ManDirection.Right;
+            }
+
+            State = (int)movement == 0 ? ManState.Idle : ManState.Walking;
+
+            Sprite.Effect = Direction == ManDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         }
 
 
@@ -132,6 +180,8 @@ namespace JumpNShootMan.Game
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             previousPosition = Position;
+
+
 
             // Base velocity is a combination of horizontal movement control and
             // acceleration downward due to gravity.
@@ -152,7 +202,7 @@ namespace JumpNShootMan.Game
 
             // Apply velocity.
             Position += velocity * elapsed;
-            Debug.WriteLine(Position);
+//            Debug.WriteLine(Position);
 //            Position = new Vector2((float)Math.Round(Position.X), (float)Math.Round(Position.Y));
 
             // If the player is now colliding with the level, separate them.
@@ -324,7 +374,7 @@ namespace JumpNShootMan.Game
                     }
                 }
             }
-            Debug.WriteLine(isOnGround);
+//            Debug.WriteLine(isOnGround);
 
             if (obstructedOnX)
                 velocity.X = 0;
