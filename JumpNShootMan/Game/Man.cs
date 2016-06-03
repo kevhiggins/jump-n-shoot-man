@@ -53,6 +53,7 @@ namespace JumpNShootMan.Game
 
         public TiledMap TileMap { get; set; }
         public Rectangle Bounds => new Rectangle((int)Math.Round(Position.X + 10), (int)Math.Round(Position.Y), (int)Sprite.GetBoundingRectangle().Width - 18, (int)Sprite.GetBoundingRectangle().Height);
+        //public Rectangle Bounds => (Rectangle)BoundingBox;
 
         public ManState State { get; set; }
         private ManState lastState;
