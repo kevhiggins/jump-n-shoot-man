@@ -11,6 +11,8 @@ using JumpNShootMan.Sprites;
 
 using SpriteSheetAnimator = JumpNShootMan.Game.SpriteSheetAnimator;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace JumpNShootMan
 {
@@ -27,6 +29,9 @@ namespace JumpNShootMan
         public TiledMap tiledMap;
         public const int TILE_WIDTH = 32;
         public const int TILE_HEIGHT = 32;
+        public Song song;
+        public SoundEffect playerDeathSting;
+        public SoundEffect playerDeath;
 
 
         // Create TileMap class // Needs to compare it's tiles to the Man, and anything else that could collide with them.
@@ -111,8 +116,16 @@ namespace JumpNShootMan
 
             var animationGroup = Content.Load<SpriteSheetAnimationGroup>("Sprites/jumpman-animations");
 
-            jumpNShootMan = new Man(new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height), new SpriteSheetAnimator(animationGroup));
+            jumpNShootMan = new Man(new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height), new SpriteSheetAnimator(animationGroup), this);
             jumpNShootMan.TileMap = tiledMap;
+
+            this.song = Content.Load<Song>("Sounds/BGM");
+            this.playerDeathSting = Content.Load<SoundEffect>("Sounds/player death sting");
+            this.playerDeath = Content.Load<SoundEffect>("Sounds/playerdeath");
+            MediaPlayer.Volume = 0.01f;
+            SoundEffect.MasterVolume = 0.1f;
+            MediaPlayer.Play(song);
+            
         }
 
         /// <summary>

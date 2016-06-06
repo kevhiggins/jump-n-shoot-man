@@ -74,9 +74,11 @@ namespace JumpNShootMan.Game
         // Input configuration
         private const float MoveStickScale = 1.0f;
         private const Buttons JumpButton = Buttons.A;
+        private Game1 game;
         
-        public Man(Vector2 position, SpriteSheetAnimator animator) : base(position, animator)
+        public Man(Vector2 position, SpriteSheetAnimator animator, Game1 game) : base(position, animator)
         {
+            this.game = game;
         }
 
         public override void Initialize()
@@ -226,6 +228,8 @@ namespace JumpNShootMan.Game
         {
             if (Position.Y > TileMap.HeightInPixels)
             {
+                game.playerDeathSting.Play();
+                game.playerDeath.Play();
                 Position = StartPosition();
                 // Reset to start point
             }

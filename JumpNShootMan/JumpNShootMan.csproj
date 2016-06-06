@@ -72,10 +72,16 @@
     <Content Include="Content\Maps\level-2\brown-square.png" />
     <Content Include="Content\Maps\level-2\player.png" />
     <Content Include="Content\Objects\player.png" />
+    <Content Include="Content\Sounds\enemydeath.wav" />
+    <Content Include="Content\Sounds\goal sting.wav" />
+    <Content Include="Content\Sounds\player death sting.wav" />
+    <Content Include="Content\Sounds\playerdeath.wav" />
     <Content Include="Content\Sprites\jumpman-animations.aa" />
     <Content Include="Content\Sprites\jumpman.png" />
     <Content Include="Icon.ico" />
     <None Include="Content\Maps\level-2\level-2.tmx" />
+    <None Include="Content\Sounds\BGM.ogg" />
+    <None Include="Content\Sounds\laser.ogg" />
     <None Include="Content\Sprites\jumpman-atlas.json" />
     <None Include="packages.config" />
     <None Include="TODO.md" />

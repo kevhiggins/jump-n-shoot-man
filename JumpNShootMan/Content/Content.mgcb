@@ -67,28 +67,6 @@
 /processorParam:TextureFormat=Color
 /build:Objects/player.png
 
-#begin Sprites/man-animations.aa
-/importer:AstridAnimatorImporter
-/processor:AstridAnimatorProcessor
-/build:Sprites/man-animations.aa
-
-#begin Sprites/man-atlas.json
-/importer:TexturePackerJsonImporter
-/processor:TexturePackerProcessor
-/build:Sprites/man-atlas.json
-
-#begin Sprites/man.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/man.png
-
 #begin Sprites/jumpman-animations.aa
 /importer:AstridAnimatorImporter
 /processor:AstridAnimatorProcessor
@@ -110,4 +88,40 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/jumpman.png
+
+#begin Sounds/BGM.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/BGM.ogg
+
+#begin Sounds/enemydeath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/enemydeath.wav
+
+#begin Sounds/goal sting.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/goal sting.wav
+
+#begin Sounds/laser.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/laser.ogg
+
+#begin Sounds/player death sting.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/player death sting.wav
+
+#begin Sounds/playerdeath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/playerdeath.wav
 
