@@ -74,12 +74,9 @@
     <Content Include="Content\Objects\player.png" />
     <Content Include="Content\Sprites\jumpman-animations.aa" />
     <Content Include="Content\Sprites\jumpman.png" />
-    <Content Include="Content\Sprites\man-animations.aa" />
-    <Content Include="Content\Sprites\man.png" />
     <Content Include="Icon.ico" />
     <None Include="Content\Maps\level-2\level-2.tmx" />
     <None Include="Content\Sprites\jumpman-atlas.json" />
-    <None Include="Content\Sprites\man-atlas.json" />
     <None Include="packages.config" />
     <None Include="TODO.md" />
   </ItemGroup>
