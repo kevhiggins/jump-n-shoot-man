@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using JumpNShootMan.Game;
@@ -50,10 +51,27 @@ namespace JumpNShootMan
         /// </summary>
         protected override void Initialize()
         {
-            Debug.WriteLine("TEST0");
+//            var projectDir = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+//            var level2Path = projectDir + "\\Content\\Maps\\level-2\\level-2.tmx";
+//
+//            
+//            var tiledMapImporter = new TiledMapImporter();
+//
+//            var pipelineManager = new PipelineManager(projectDir, projectDir + "\\Content\\Maps\\level-2", projectDir + "\\Content\\Maps\\level-2\\tmp");
+//
+//            var tmxMap = tiledMapImporter.Import(level2Path, new PipelineImporterContext(pipelineManager));
+//
+//
+//            var processorContext = new PipelineProcessorContext(pipelineManager, new PipelineBuildEvent());
+//            var mapProcessor = new TiledMapProcessor();
+//            mapProcessor.Process(tmxMap, processorContext);
+//
+//            var mapWriter = new TiledMapWriter();
+//            mapWriter.
+
             // TODO: Add your initialization logic here
-         //   var texture = new Texture2D(GraphicsDevice, 20, 40);
-         //   ColorTexture(texture, Color.Red);
+            //   var texture = new Texture2D(GraphicsDevice, 20, 40);
+            //   ColorTexture(texture, Color.Red);
 
             //            int[,] map1 = {{, , , EmptyTle, EmptyTile, EmptyTile, EmptyTile, EmptyTile, EmptyTile, EmptyTile, } };
 
