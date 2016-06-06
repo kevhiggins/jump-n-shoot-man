@@ -123,6 +123,7 @@ namespace JumpNShootMan
             this.playerDeathSting = Content.Load<SoundEffect>("Sounds/player death sting");
             this.playerDeath = Content.Load<SoundEffect>("Sounds/playerdeath");
             MediaPlayer.Volume = 0.01f;
+            MediaPlayer.IsRepeating = true;
             SoundEffect.MasterVolume = 0.1f;
             MediaPlayer.Play(song);
             
