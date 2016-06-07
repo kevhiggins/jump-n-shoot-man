@@ -3,26 +3,28 @@
   "Animations": [
     {
       "Name": "Walk",
-      "FramesPerSecond": 6,
+      "FramesPerSecond": 8,
       "Frames": [
-        "jumpnshootcolors_MID",
-        "jumpnshootcolors_RIGHT",
-        "jumpnshootcolors_MID",
-        "jumpnshootcolors_LEFT"
+        "jumpdetail0002",
+        "jumpdetail0003",
+        "jumpdetail0004",
+        "jumpdetail0005",
+        "jumpdetail0006",
+        "jumpdetail0007"
       ]
     },
     {
       "Name": "Idle",
       "FramesPerSecond": 8,
       "Frames": [
-        "jumpnshootcolors_IDLE"
+        "jumpdetail0000"
       ]
     },
     {
       "Name": "Jump",
       "FramesPerSecond": 8,
       "Frames": [
-        "jumpnshootcolors_JUMP"
+        "jumpdetail0003"
       ]
     }
   ]

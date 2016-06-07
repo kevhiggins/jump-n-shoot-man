@@ -1,48 +1,75 @@
 {"frames": [
 
 {
-	"filename": "jumpnshootcolors_IDLE.png",
-	"frame": {"x":0,"y":1,"w":42,"h":40},
+	"filename": "jumpdetail0000.png",
+	"frame": {"x":0,"y":0,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":1,"w":42,"h":40},
-	"sourceSize": {"w":42,"h":40},
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
+	"sourceSize": {"w":40,"h":40},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "jumpnshootcolors_JUMP.png",
-	"frame": {"x":44,"y":1,"w":42,"h":40},
+	"filename": "jumpdetail0001.png",
+	"frame": {"x":41,"y":0,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":1,"w":42,"h":40},
-	"sourceSize": {"w":42,"h":40},
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
+	"sourceSize": {"w":40,"h":40},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "jumpnshootcolors_LEFT.png",
-	"frame": {"x":88,"y":1,"w":42,"h":40},
+	"filename": "jumpdetail0002.png",
+	"frame": {"x":82,"y":0,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":1,"w":42,"h":40},
-	"sourceSize": {"w":42,"h":40},
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
+	"sourceSize": {"w":40,"h":40},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "jumpnshootcolors_MID.png",
-	"frame": {"x":132,"y":1,"w":42,"h":40},
+	"filename": "jumpdetail0003.png",
+	"frame": {"x":0,"y":41,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":1,"w":42,"h":40},
-	"sourceSize": {"w":42,"h":40},
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
+	"sourceSize": {"w":40,"h":40},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "jumpnshootcolors_RIGHT.png",
-	"frame": {"x":176,"y":1,"w":42,"h":40},
+	"filename": "jumpdetail0004.png",
+	"frame": {"x":41,"y":41,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":1,"w":42,"h":40},
-	"sourceSize": {"w":42,"h":40},
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
+	"sourceSize": {"w":40,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jumpdetail0005.png",
+	"frame": {"x":82,"y":41,"w":40,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
+	"sourceSize": {"w":40,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jumpdetail0006.png",
+	"frame": {"x":0,"y":82,"w":40,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
+	"sourceSize": {"w":40,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jumpdetail0007.png",
+	"frame": {"x":41,"y":82,"w":40,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
+	"sourceSize": {"w":40,"h":40},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -50,8 +77,8 @@
 	"version": "1.0",
 	"image": "jumpman.png",
 	"format": "RGBA8888",
-	"size": {"w":218,"h":42},
+	"size": {"w":122,"h":122},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:31dd579b39e3853a6a612e3a0f9c8968:bbe3259c7a7161657ca6e2961778e4a4:a7ae3317ec17b3156ef9470178230dc2$"
+	"smartupdate": "$TexturePacker:SmartUpdate:d075e53a193db7557455ad7e82537b07:0fe343ee63ce9e1e351c65d115f41a5b:2c3063c9c94d51e474a89412e2fa706b$"
 }
 }
