@@ -27,8 +27,6 @@ namespace JumpNShootMan
         private Man jumpNShootMan;
         private SpriteBatch spriteBatch;
         public TiledMap tiledMap;
-        public const int TILE_WIDTH = 32;
-        public const int TILE_HEIGHT = 32;
         public Song song;
         public SoundEffect playerDeathSting;
         public SoundEffect playerDeath;
