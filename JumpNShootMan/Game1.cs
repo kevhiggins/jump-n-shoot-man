@@ -41,7 +41,7 @@ namespace JumpNShootMan
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = 720;   // set this value to the desired height of your window
+            graphics.PreferredBackBufferHeight = 704;   // set this value to the desired height of your window
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -120,7 +120,7 @@ namespace JumpNShootMan
             this.song = Content.Load<Song>("Sounds/BGM");
             this.playerDeathSting = Content.Load<SoundEffect>("Sounds/player death sting");
             this.playerDeath = Content.Load<SoundEffect>("Sounds/playerdeath");
-            MediaPlayer.Volume = 0.01f;
+            MediaPlayer.Volume = 0.05f;
             MediaPlayer.IsRepeating = true;
             SoundEffect.MasterVolume = 0.1f;
             MediaPlayer.Play(song);
