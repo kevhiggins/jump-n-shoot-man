@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Animations;
 using MonoGame.Extended.Maps.Tiled;
+using MonoGame.Extended.Animations.SpriteSheets;
 
 namespace JumpNShootMan.Game
 {
@@ -114,13 +115,13 @@ namespace JumpNShootMan.Game
                 switch (State)
                 {
                     case ManState.Idle:
-                        Animator.PlayAnimation("Idle");
+                        Animator.Play("Idle");
                         break;
                     case ManState.Walking:
-                        Animator.PlayAnimation("Walk");
+                        Animator.Play("Walk");
                         break;
                     case ManState.Jumping:
-                        Animator.PlayAnimation("Jump");
+                        Animator.Play("Jump");
                         break;
                 }
             }

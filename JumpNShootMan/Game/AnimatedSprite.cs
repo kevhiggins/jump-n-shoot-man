@@ -10,6 +10,7 @@ using MonoGame.Extended.Animations;
 using MonoGame.Extended.Collisions;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Animations.SpriteSheets;
 
 namespace JumpNShootMan.Game
 {
@@ -34,7 +35,7 @@ namespace JumpNShootMan.Game
 
         protected AnimatedSprite(Vector2 position, SpriteSheetAnimator animator)
         {
-            Sprite = animator.Sprite;
+            Sprite = animator.CreateSprite();
             Position = position;
             Animator = animator;
         }

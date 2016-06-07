@@ -9,10 +9,10 @@ using MonoGame.Extended.Animations;
 using MonoGame.Extended.Maps.Tiled;
 using JumpNShootMan.Sprites;
 
-using SpriteSheetAnimator = JumpNShootMan.Game.SpriteSheetAnimator;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+using MonoGame.Extended.Animations.SpriteSheets;
 
 namespace JumpNShootMan
 {
@@ -112,7 +112,7 @@ namespace JumpNShootMan
 
             var manTexture = Content.Load<Texture2D>("Objects/player");
 
-            var animationGroup = Content.Load<SpriteSheetAnimationGroup>("Sprites/jumpman-animations");
+            var animationGroup = Content.Load<SpriteSheetAnimationFactory>("Sprites/jumpman-animations");
 
             jumpNShootMan = new Man(new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height), new SpriteSheetAnimator(animationGroup), this);
             jumpNShootMan.TileMap = tiledMap;
