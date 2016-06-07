@@ -173,7 +173,9 @@ namespace JumpNShootMan
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null);
-            tiledMap.Draw(spriteBatch);
+
+            spriteBatch.Draw(tiledMap, gameTime: gameTime);
+            //tiledMap.Draw(spriteBatch);
             //spriteBatch.Draw(jumpNShootMan.Sprite.TextureRegion.Texture, jumpNShootMan.Sprite.Position);
 
             var sprite = jumpNShootMan.Sprite;

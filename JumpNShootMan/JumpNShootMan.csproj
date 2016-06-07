@@ -84,7 +84,6 @@
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\FreeImageNET.dll" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Extended.Content.Pipeline.dll" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Extended.Content.Pipeline.pdb" />
-    <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Extended.dll" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Extended.pdb" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Framework.Content.Pipeline.dll" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Framework.dll" />
