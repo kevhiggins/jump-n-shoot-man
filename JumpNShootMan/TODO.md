@@ -1,11 +1,18 @@
-﻿Add enemy
+﻿Fix collision
+
+Fix jumping and moving for char
+
+Add enemy
 Add shooting
 Add shooting and killing
-Add sounds for death and shooting and goal and background music
+Add goal and shooting and enemy death sounds
 Add goal/Detection
+
+Fix short hops
 
 Fix jumping really faster animation where we never see idle frames
 Fix jump animation where the animation is walking or idling in the air
+
 
 Add walking inertia
 
@@ -25,3 +32,10 @@ Add a boss monster
 
 Parking Lot:
 Dying enemy flash red in game
+
+
+Map Wishlist
+-Flickering lights
+-Parallax images
+-Sections of background images
+-Big Doors
