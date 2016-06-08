@@ -86,7 +86,6 @@
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Extended.Content.Pipeline.pdb" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Extended.pdb" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Framework.Content.Pipeline.dll" />
-    <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Framework.dll" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\Newtonsoft.Json.dll" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\Newtonsoft.Json.xml" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\Nvidia.TextureTools.dll" />
