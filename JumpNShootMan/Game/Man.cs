@@ -96,11 +96,11 @@ namespace JumpNShootMan.Game
         {
             GetInput(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
 
-            ApplyPhysics(gameTime);
-            if (IsOnGround == false)
-            {
-                State = ManState.Jumping;
-            }
+      //      ApplyPhysics(gameTime);
+  //          if (IsOnGround == false)
+   //         {
+    //            State = ManState.Jumping;
+     //       }
             //Position = new Vector2(Position.X, Position.Y + 10);
             UpdateAnimation();
           //  Debug.WriteLine(Position);

@@ -13,6 +13,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using MonoGame.Extended.Animations.SpriteSheets;
+using Box2DX.Collision;
+using Box2DX.Common;
+using Box2DX.Dynamics;
 
 namespace JumpNShootMan
 {
@@ -30,6 +33,10 @@ namespace JumpNShootMan
         public Song song;
         public SoundEffect playerDeathSting;
         public SoundEffect playerDeath;
+        public World world;
+
+        // Height of average man in meters divided by height of man sprite  40pixels * x = 1.755m
+        public const float BOX2D_SCALING_FACTOR = 0.043875f;
 
 
         // Create TileMap class // Needs to compare it's tiles to the Man, and anything else that could collide with them.
@@ -123,8 +130,66 @@ namespace JumpNShootMan
             MediaPlayer.Volume = 0.05f;
             MediaPlayer.IsRepeating = true;
             SoundEffect.MasterVolume = 0.1f;
-            MediaPlayer.Play(song);
-            
+            //      MediaPlayer.Play(song);
+
+            LoadBox2DWorld();
+        }
+
+        protected void LoadBox2DWorld()
+        {
+            // Define the size of the world. Simulation will still work
+            // if bodies reach the end of the world, but it will be slower.
+            AABB worldAABB = new AABB();
+            worldAABB.LowerBound.Set(0, 0);
+            worldAABB.UpperBound.Set(tiledMap.WidthInPixels * BOX2D_SCALING_FACTOR, tiledMap.HeightInPixels * BOX2D_SCALING_FACTOR);
+
+            Debug.WriteLine(new Vector2(tiledMap.WidthInPixels * BOX2D_SCALING_FACTOR, tiledMap.HeightInPixels * BOX2D_SCALING_FACTOR));
+
+            // Define the gravity vector.
+            Vec2 gravity = new Vec2(0.0f, -10.0f);
+
+            // Do we want to let bodies sleep?
+            bool doSleep = true;
+
+            // Construct a world object, which will hold and simulate the rigid bodies.
+            world = new World(worldAABB, gravity, doSleep);
+
+
+            var platformLayer = TiledHelper.FindTileLayer("Platforms", tiledMap.TileLayers);
+            if (platformLayer == null)
+                throw new Exception("Could not find Platform Layer");
+
+            BodyDef groundBodyDef = new BodyDef();
+            Body groundBody;
+            PolygonDef groundShapeDef = new PolygonDef();
+
+            foreach (TiledTile tile in platformLayer.Tiles)
+            {
+                var x = tile.X * tiledMap.TileWidth;
+                var y = tile.Y * tiledMap.TileHeight;
+                var platformRectangle = new Rectangle(x, y, tiledMap.TileWidth, tiledMap.TileHeight);
+
+                groundBodyDef.Position.Set((platformRectangle.X + platformRectangle.Width) * BOX2D_SCALING_FACTOR, (platformRectangle.Y + platformRectangle.Height) * BOX2D_SCALING_FACTOR);
+
+                // Call the body factory which creates the ground box shape.
+                // The body is also added to the world.
+                groundBody = world.CreateBody(groundBodyDef);
+
+                // The extents are the half-widths of the box.
+                groundShapeDef.SetAsBox(platformRectangle.Width * BOX2D_SCALING_FACTOR / 2, platformRectangle.Height * BOX2D_SCALING_FACTOR / 2);
+
+                // Add the ground shape to the ground body.
+                groundBody.CreateShape(groundShapeDef);
+            }
+
+        }
+
+        protected void AddPlatform(Rectangle platformRectangle)
+        {
+
+
+            // Define the ground body.
+
         }
 
         /// <summary>
@@ -153,11 +218,11 @@ namespace JumpNShootMan
             base.Update(gameTime);
         }
 
-        private static void ColorTexture(Texture2D texture, Color color)
+        private static void ColorTexture(Texture2D texture, Microsoft.Xna.Framework.Color color)
         {
             // Fill the texture with red pixels
             var pixelCount = texture.Width*texture.Height;
-            var colorData = new Color[pixelCount];
+            var colorData = new Microsoft.Xna.Framework.Color[pixelCount];
             for (var i = 0; i < pixelCount; i++)
             {
                 colorData[i] = color;
@@ -171,7 +236,7 @@ namespace JumpNShootMan
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null);
 
             spriteBatch.Draw(tiledMap, gameTime: gameTime);
