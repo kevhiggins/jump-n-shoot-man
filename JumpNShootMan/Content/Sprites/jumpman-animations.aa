@@ -2,29 +2,29 @@
   "TextureAtlas": "jumpman-atlas.json",
   "Animations": [
     {
-      "Name": "Walk",
-      "FramesPerSecond": 8,
-      "Frames": [
-        "jumpdetail0002",
-        "jumpdetail0003",
-        "jumpdetail0004",
-        "jumpdetail0005",
-        "jumpdetail0006",
-        "jumpdetail0007"
-      ]
-    },
-    {
       "Name": "Idle",
       "FramesPerSecond": 8,
       "Frames": [
-        "jumpdetail0000"
+        "jumpmanv3BIG0000"
+      ]
+    },
+    {
+      "Name": "Walk",
+      "FramesPerSecond": 8,
+      "Frames": [
+        "jumpmanv3BIG0002",
+        "jumpmanv3BIG0003",
+        "jumpmanv3BIG0004",
+        "jumpmanv3BIG0005",
+        "jumpmanv3BIG0006",
+        "jumpmanv3BIG0007"
       ]
     },
     {
       "Name": "Jump",
       "FramesPerSecond": 8,
       "Frames": [
-        "jumpdetail0003"
+        "jumpmanv3BIG0011"
       ]
     }
   ]
