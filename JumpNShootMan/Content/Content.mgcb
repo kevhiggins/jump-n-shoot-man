@@ -161,3 +161,15 @@
 /processorParam:TextureFormat=Color
 /build:Maps/level-1/scaletest.png
 
+#begin Maps/level-1/baddie.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/level-1/baddie.png
+
