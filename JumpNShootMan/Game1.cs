@@ -19,7 +19,9 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Common;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.DebugView;
+using MonoGame.Extended;
 using MonoGame.Extended.Shapes;
+using MonoGame.Extended.ViewportAdapters;
 
 namespace JumpNShootMan
 {
@@ -42,6 +44,7 @@ namespace JumpNShootMan
         private List<Body> platforms = new List<Body>();
         private Texture2D groundTexture;
         private DebugViewXNA physicsDebug;
+        private Camera2D camera;
 
         public const float PIXELS_PER_METER = 68;
 
@@ -67,39 +70,9 @@ namespace JumpNShootMan
         /// </summary>
         protected override void Initialize()
         {
-//            var projectDir = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-//            var level2Path = projectDir + "\\Content\\Maps\\level-2\\level-2.tmx";
-//
-//            
-//            var tiledMapImporter = new TiledMapImporter();
-//
-//            var pipelineManager = new PipelineManager(projectDir, projectDir + "\\Content\\Maps\\level-2", projectDir + "\\Content\\Maps\\level-2\\tmp");
-//
-//            var tmxMap = tiledMapImporter.Import(level2Path, new PipelineImporterContext(pipelineManager));
-//
-//
-//            var processorContext = new PipelineProcessorContext(pipelineManager, new PipelineBuildEvent());
-//            var mapProcessor = new TiledMapProcessor();
-//            mapProcessor.Process(tmxMap, processorContext);
-//
-//            var mapWriter = new TiledMapWriter();
-//            mapWriter.
-
-            // TODO: Add your initialization logic here
-            //   var texture = new Texture2D(GraphicsDevice, 20, 40);
-            //   ColorTexture(texture, Color.Red);
-
-            //            int[,] map1 = {{, , , EmptyTle, EmptyTile, EmptyTile, EmptyTile, EmptyTile, EmptyTile, EmptyTile, } };
-
-            //            var mapPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Game\Maps\data\map-1.csv");
-            //   var mapPath = Path.Combine(Environment.CurrentDirectory, @"Game\Maps\data\map-1.csv");
-
-            //            Debug.WriteLine(mapPath);
-
-            //    var tileMap = new TileMap(mapPath);
-            //  tileMap.Initialize();
-
             base.Initialize();
+            var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, (int)(1280 / PIXELS_PER_METER), (int)(704 / PIXELS_PER_METER));
+            camera = new Camera2D(viewportAdapter);
         }
 
         /// <summary>
@@ -176,7 +149,7 @@ namespace JumpNShootMan
 
                 var x = tile.X * tiledMap.TileWidth;
                 var y = tile.Y * tiledMap.TileHeight;
-                var rectangle = new RectangleF(x + tiledMap.TileWidth / 2, y + tiledMap.TileHeight / 2, tiledMap.TileWidth, tiledMap.TileHeight);
+                var rectangle = new RectangleF(x, y, tiledMap.TileWidth, tiledMap.TileHeight);
 
                 var body = CreateRectangleBody(world, rectangle);
                 platforms.Add(body);
@@ -208,7 +181,7 @@ namespace JumpNShootMan
                 throw new ArgumentOutOfRangeException("height", "Height must be more than 0 meters");
 
             Body newBody = new Body(world, new Vector2(x, y), bodyType: bodyType);
-            Vertices rectangleVertices = PolygonTools.CreateRectangle(halfWidth / 2, halfHeight / 2);
+            Vertices rectangleVertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
             PolygonShape rectangleShape = new PolygonShape(rectangleVertices, density);
             newBody.CreateFixture(rectangleShape, userData);
 
@@ -237,7 +210,7 @@ namespace JumpNShootMan
 
             world.Step(1 / 60f);
       //      Debug.WriteLine(new Vector2(manBody.Position.X * PIXELS_PER_METER, manBody.Position.Y * PIXELS_PER_METER));
-            jumpNShootMan.Position = new Vector2(ConvertUnits.ToDisplayUnits(manBody.Position.X), ConvertUnits.ToDisplayUnits(manBody.Position.Y));
+            jumpNShootMan.Position = new Vector2(manBody.Position.X, manBody.Position.Y);
 
             jumpNShootMan.Update(gameTime);
             // TODO: Add your update logic here
@@ -264,29 +237,44 @@ namespace JumpNShootMan
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null);
 
-        //    spriteBatch.Draw(tiledMap, gameTime: gameTime);
+            var viewMatrix = camera.GetViewMatrix(Vector2.Zero);
+            
+
+            //spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null);
+            spriteBatch.Begin(transformMatrix:viewMatrix);
+
+            //    spriteBatch.Draw(tiledMap, gameTime: gameTime);
             //tiledMap.Draw(spriteBatch);
             //spriteBatch.Draw(jumpNShootMan.Sprite.TextureRegion.Texture, jumpNShootMan.Sprite.Position);
 
-//            var sprite = jumpNShootMan.Sprite;
+            //            var sprite = jumpNShootMan.Sprite;
             //  spriteBatch.Draw(sprite.TextureRegion.Texture, sprite.Position + sprite.Origin, sourceRectangle: sprite.TextureRegion.Bounds, color: sprite.Color * sprite.Alpha, rotation: sprite.Rotation, origin: sprite.Origin);
 
+            Debug.WriteLine(viewMatrix);
+
+
+            var scale = jumpNShootMan.Sprite.Scale;
+            jumpNShootMan.Sprite.Scale = new Vector2(1 / PIXELS_PER_METER, 1 / PIXELS_PER_METER);
+            //jumpNShootMan.Sprite.Scale = camera.
             spriteBatch.Draw(jumpNShootMan.Sprite);
 
-            Matrix proj = Matrix.CreateOrthographicOffCenter(0f, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
-            // Matrix view = camera.GetViewMatrix(Vector2.One);
 
-            Matrix view = Matrix.CreateTranslation(new Vector3(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height / 2.0f, 0.0f));
-            physicsDebug.RenderDebugData(ref proj, ref view);
+            Matrix proj = Matrix.CreateOrthographicOffCenter(0f, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
+            //Matrix view = camera.GetViewMatrix(Vector2.One);
+
+            //Matrix view = Matrix.CreateTranslation(new Vector3(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height / 2.0f, 0.0f));
+//            var view = camera.GetViewMatrix(Vector2.One);
+
+
+            physicsDebug.RenderDebugData(ref proj, ref viewMatrix);
 
 
             foreach (Body body in platforms)
             {
                 var groundSprite = new Sprite(groundTexture);
-                groundSprite.Position = new Vector2(ConvertUnits.ToDisplayUnits(body.Position.X), ConvertUnits.ToDisplayUnits(body.Position.Y));
-                spriteBatch.Draw(groundSprite);
+                groundSprite.Position = new Vector2(body.Position.X, body.Position.Y);
+  //              spriteBatch.Draw(groundSprite);
             }
 
             spriteBatch.End();
