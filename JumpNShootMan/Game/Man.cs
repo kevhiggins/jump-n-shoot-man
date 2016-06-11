@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using FarseerPhysics.Dynamics;
 using JumpNShootMan.Game.Common;
 using JumpNShootMan.Game.Tiled;
 using Microsoft.Xna.Framework;
@@ -76,6 +77,7 @@ namespace JumpNShootMan.Game
         private const float MoveStickScale = 1.0f;
         private const Buttons JumpButton = Buttons.A;
         private Game1 game;
+        public Body Body;
         
         public Man(Vector2 position, SpriteSheetAnimator animator, Game1 game) : base(position, animator)
         {
@@ -96,12 +98,13 @@ namespace JumpNShootMan.Game
         {
             GetInput(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
 
-          /*  ApplyPhysics(gameTime);
-            if (IsOnGround == false)
-            {
-                State = ManState.Jumping;
-            }
-            */
+            /*  ApplyPhysics(gameTime);
+              if (IsOnGround == false)
+              {
+                  State = ManState.Jumping;
+              }
+              */
+            CheckBottomMapCollision();
             //Position = new Vector2(Position.X, Position.Y + 10);
             UpdateAnimation();
           //  Debug.WriteLine(Position);
@@ -177,6 +180,8 @@ namespace JumpNShootMan.Game
             State = (int)movement == 0 ? ManState.Idle : ManState.Walking;
 
             Sprite.Effect = Direction == ManDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            Body.LinearVelocity = new Vector2(movement, 0);
         }
 
 

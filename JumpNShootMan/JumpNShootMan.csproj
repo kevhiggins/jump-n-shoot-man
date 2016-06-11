@@ -45,7 +45,6 @@
     <Compile Include="Game\Man.cs" />
     <Compile Include="Game\Sprite.cs" />
     <Compile Include="Game\ISprite.cs" />
-    <Compile Include="Game\SpriteBatchExtensions.cs" />
     <Compile Include="Game\Tiled\TiledHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

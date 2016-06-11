@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using FarseerPhysics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using JumpNShootMan.Game;
 using JumpNShootMan.Game.Tiled;
 using MonoGame.Extended.Animations;
 using MonoGame.Extended.Maps.Tiled;
-using JumpNShootMan.Sprites;
+using MonoGame.Extended.Sprites;
 
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -37,7 +38,7 @@ namespace JumpNShootMan
         World world;
         Body manBody;
 
-        public const float PIXELS_PER_METER = 23;
+        public const float PIXELS_PER_METER = 68;
 
         // Create TileMap class // Needs to compare it's tiles to the Man, and anything else that could collide with them.
         // Add horizontal movement to man
@@ -145,6 +146,7 @@ namespace JumpNShootMan
             FarseerPhysics.Settings.ContinuousPhysics = false;
 
             world = new World(new Vector2(0f, 9.82f));
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(PIXELS_PER_METER);
                         
             var platformLayer = TiledHelper.FindTileLayer("Platforms", tiledMap.TileLayers);
             if (platformLayer == null)
@@ -159,7 +161,7 @@ namespace JumpNShootMan
 
                 var x = tile.X * tiledMap.TileWidth;
                 var y = tile.Y * tiledMap.TileHeight;
-                var rectangle = new Rectangle(x, y, tiledMap.TileWidth, tiledMap.TileHeight);
+                var rectangle = new RectangleF(x - tiledMap.TileWidth / 2, y - tiledMap.TileHeight, tiledMap.TileWidth, tiledMap.TileHeight);
 
                 var body = CreateRectangleBody(world, rectangle);
             }
@@ -167,18 +169,20 @@ namespace JumpNShootMan
             // Add man
             //jumpNShootMan
             // TODO use floating point rectangles
+            Debug.WriteLine(jumpNShootMan.Sprite.GetBoundingRectangle());
             var manRectangle = new RectangleF(jumpNShootMan.Position.X, jumpNShootMan.Position.Y, jumpNShootMan.Sprite.GetBoundingRectangle().Width, jumpNShootMan.Sprite.GetBoundingRectangle().Height);
 
             manBody = CreateRectangleBody(world, manRectangle, BodyType.Dynamic);
+            jumpNShootMan.Body = manBody;
 
         }
 
         public static Body CreateRectangleBody(World world, RectangleF rectangle, BodyType bodyType = BodyType.Static, float density = 0, object userData = null)
         {
-            var halfWidth = rectangle.Width / PIXELS_PER_METER / 2;
-            var halfHeight = rectangle.Height / PIXELS_PER_METER / 2;
-            var x = rectangle.X / PIXELS_PER_METER + halfWidth;
-            var y = rectangle.Y / PIXELS_PER_METER + halfHeight;
+            var halfWidth = ConvertUnits.ToSimUnits(rectangle.Width / 2);
+            var halfHeight = ConvertUnits.ToSimUnits(rectangle.Height / 2);
+            var x = ConvertUnits.ToSimUnits(rectangle.X);
+            var y = ConvertUnits.ToSimUnits(rectangle.Y);
 
             if (halfWidth <= 0)
                 throw new ArgumentOutOfRangeException("width", "Width must be more than 0 meters");
@@ -215,8 +219,8 @@ namespace JumpNShootMan
             //     Exit();
 
             world.Step(1 / 60f);
-            Debug.WriteLine(new Vector2(manBody.Position.X * PIXELS_PER_METER, manBody.Position.Y * PIXELS_PER_METER));
-            jumpNShootMan.Position = new Vector2(manBody.Position.X * PIXELS_PER_METER - jumpNShootMan.Sprite.GetBoundingRectangle().Width / 2, manBody.Position.Y * PIXELS_PER_METER - jumpNShootMan.Sprite.GetBoundingRectangle().Height / 2);
+      //      Debug.WriteLine(new Vector2(manBody.Position.X * PIXELS_PER_METER, manBody.Position.Y * PIXELS_PER_METER));
+            jumpNShootMan.Position = new Vector2(ConvertUnits.ToDisplayUnits(manBody.Position.X), ConvertUnits.ToDisplayUnits(manBody.Position.Y));
 
             jumpNShootMan.Update(gameTime);
             // TODO: Add your update logic here
