@@ -161,7 +161,12 @@
 /processorParam:TextureFormat=Color
 /build:Maps/level-1/scaletest.png
 
-#begin Maps/level-1/baddie.png
+#begin Sprites/enemy.json
+/importer:TexturePackerJsonImporter
+/processor:TexturePackerProcessor
+/build:Sprites/enemy.json
+
+#begin Sprites/enemy.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -171,5 +176,22 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Maps/level-1/baddie.png
+/build:Sprites/enemy.png
+
+#begin Sprites/enemy.aa
+/importer:AstridAnimatorImporter
+/processor:AstridAnimatorProcessor
+/build:Sprites/enemy.aa
+
+#begin Maps/level-1/enemy.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/level-1/enemy.png
 

@@ -1,0 +1,120 @@
+{"frames": [
+
+{
+	"filename": "baddie0000.png",
+	"frame": {"x":0,"y":0,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0001.png",
+	"frame": {"x":151,"y":0,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0002.png",
+	"frame": {"x":302,"y":0,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0003.png",
+	"frame": {"x":0,"y":121,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0004.png",
+	"frame": {"x":151,"y":121,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0005.png",
+	"frame": {"x":302,"y":121,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0006.png",
+	"frame": {"x":0,"y":242,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0007.png",
+	"frame": {"x":151,"y":242,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0008.png",
+	"frame": {"x":302,"y":242,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0009.png",
+	"frame": {"x":0,"y":363,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0010.png",
+	"frame": {"x":151,"y":363,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "baddie0011.png",
+	"frame": {"x":302,"y":363,"w":150,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":120},
+	"sourceSize": {"w":150,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "enemy.png",
+	"format": "RGBA8888",
+	"size": {"w":452,"h":483},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ac7ad8ee3f15fdb9837d3f121559f0e0:400d9edd2f2048f28252537ee4ebf11f:a99356c10d69482e9bee53d25c3d05e1$"
+}
+}

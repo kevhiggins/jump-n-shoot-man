@@ -1,0 +1,42 @@
+{
+  "TextureAtlas": "enemy.json",
+  "Animations": [
+    {
+      "Name": "Death",
+      "FramesPerSecond": 10,
+      "Frames": [
+        "baddie0000",
+        "baddie0003",
+        "baddie0004",
+        "baddie0005",
+        "baddie0006",
+        "baddie0007",
+        "baddie0008",
+        "baddie0009",
+        "baddie0010",
+        "baddie0011",
+        "baddie0011",
+        "baddie0011",
+        "baddie0011",
+        "baddie0011"
+      ]
+    },
+    {
+      "Name": "Shoot",
+      "FramesPerSecond": 8,
+      "Frames": [
+        "baddie0000",
+        "baddie0001",
+        "baddie0002",
+        "baddie0002",
+        "baddie0002",
+        "baddie0002",
+        "baddie0002",
+        "baddie0001",
+        "baddie0000",
+        "baddie0000",
+        "baddie0000"
+      ]
+    }
+  ]
+}
