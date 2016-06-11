@@ -163,7 +163,7 @@ namespace JumpNShootMan
             Debug.WriteLine(jumpNShootMan.Sprite.GetBoundingRectangle());
             var manRectangle = new RectangleF(jumpNShootMan.Position.X + jumpNShootMan.Sprite.GetBoundingRectangle().Width / 2, jumpNShootMan.Position.Y + jumpNShootMan.Sprite.GetBoundingRectangle().Height / 2, jumpNShootMan.Sprite.GetBoundingRectangle().Width, jumpNShootMan.Sprite.GetBoundingRectangle().Height);
 
-            manBody = CreateRectangleBody(world, manRectangle, BodyType.Dynamic);
+            manBody = CreateManBody(world, manRectangle, BodyType.Dynamic);
             jumpNShootMan.Body = manBody;
 
 
@@ -185,7 +185,30 @@ namespace JumpNShootMan
             Body newBody = new Body(world, new Vector2(x, y), bodyType: bodyType);
             Vertices rectangleVertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
             PolygonShape rectangleShape = new PolygonShape(rectangleVertices, density);
-            newBody.CreateFixture(rectangleShape, userData);
+            var fixture = newBody.CreateFixture(rectangleShape, userData);
+            fixture.Friction = 0;
+
+            return newBody;
+        }
+
+        public static Body CreateManBody(World world, RectangleF rectangle, BodyType bodyType = BodyType.Static, float density = 0, object userData = null)
+        {
+            var halfWidth = ConvertUnits.ToSimUnits(rectangle.Width / 2);
+            var halfHeight = ConvertUnits.ToSimUnits(rectangle.Height / 2);
+            var x = ConvertUnits.ToSimUnits(rectangle.X) + halfWidth;
+            var y = ConvertUnits.ToSimUnits(rectangle.Y) + halfHeight;
+
+            if (halfWidth <= 0)
+                throw new ArgumentOutOfRangeException("width", "Width must be more than 0 meters");
+
+            if (halfHeight <= 0)
+                throw new ArgumentOutOfRangeException("height", "Height must be more than 0 meters");
+
+            Body newBody = new Body(world, new Vector2(x, y), bodyType: bodyType);
+//            Vertices rectangleVertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
+            var capsuleVertices = PolygonTools.CreateCapsule(halfHeight * 2, halfWidth / 2, 3);
+            PolygonShape shape = new PolygonShape(capsuleVertices, density);
+            newBody.CreateFixture(shape, userData);
 
             return newBody;
         }
