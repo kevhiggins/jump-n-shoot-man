@@ -181,7 +181,9 @@ namespace JumpNShootMan.Game
 
             Sprite.Effect = Direction == ManDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-            Body.LinearVelocity = new Vector2(movement, 0);
+           // Body.ApplyForce(new Vector2(movement * 6, 0));
+          // Debug.WriteLine(Body.LinearVelocity);
+            Body.LinearVelocity = new Vector2(movement * 2, Body.LinearVelocity.Y);
         }
 
 

@@ -195,3 +195,9 @@
 /processorParam:TextureFormat=Color
 /build:Maps/level-1/enemy.png
 
+#begin Font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Font.spritefont
+

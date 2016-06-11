@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using FarseerPhysics;
@@ -17,6 +18,7 @@ using MonoGame.Extended.Animations.SpriteSheets;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Common;
 using FarseerPhysics.Collision.Shapes;
+using FarseerPhysics.DebugView;
 using MonoGame.Extended.Shapes;
 
 namespace JumpNShootMan
@@ -37,6 +39,9 @@ namespace JumpNShootMan
         public SoundEffect playerDeath;
         World world;
         Body manBody;
+        private List<Body> platforms = new List<Body>();
+        private Texture2D groundTexture;
+        private DebugViewXNA physicsDebug;
 
         public const float PIXELS_PER_METER = 68;
 
@@ -119,6 +124,8 @@ namespace JumpNShootMan
             }
 
             var manTexture = Content.Load<Texture2D>("Objects/player");
+            groundTexture = Content.Load<Texture2D>("Maps/level-1/brown-square");
+
 
             var animationGroup = Content.Load<SpriteSheetAnimationFactory>("Sprites/jumpman-animations");
 
@@ -146,11 +153,19 @@ namespace JumpNShootMan
             FarseerPhysics.Settings.ContinuousPhysics = false;
 
             world = new World(new Vector2(0f, 9.82f));
+            physicsDebug = new DebugViewXNA(world);
+            physicsDebug.LoadContent(this.GraphicsDevice, this.Content);
+            physicsDebug.AppendFlags(DebugViewFlags.Shape);
+            physicsDebug.AppendFlags(DebugViewFlags.PolygonPoints);
+
+
+
             ConvertUnits.SetDisplayUnitToSimUnitRatio(PIXELS_PER_METER);
                         
             var platformLayer = TiledHelper.FindTileLayer("Platforms", tiledMap.TileLayers);
             if (platformLayer == null)
                 throw new Exception("Could not find Platform Layer");
+
 
             // Add platform tiles
             foreach (TiledTile tile in platformLayer.Tiles)
@@ -161,19 +176,21 @@ namespace JumpNShootMan
 
                 var x = tile.X * tiledMap.TileWidth;
                 var y = tile.Y * tiledMap.TileHeight;
-                var rectangle = new RectangleF(x - tiledMap.TileWidth / 2, y - tiledMap.TileHeight, tiledMap.TileWidth, tiledMap.TileHeight);
+                var rectangle = new RectangleF(x + tiledMap.TileWidth / 2, y + tiledMap.TileHeight / 2, tiledMap.TileWidth, tiledMap.TileHeight);
 
                 var body = CreateRectangleBody(world, rectangle);
+                platforms.Add(body);
             }
 
             // Add man
             //jumpNShootMan
             // TODO use floating point rectangles
             Debug.WriteLine(jumpNShootMan.Sprite.GetBoundingRectangle());
-            var manRectangle = new RectangleF(jumpNShootMan.Position.X, jumpNShootMan.Position.Y, jumpNShootMan.Sprite.GetBoundingRectangle().Width, jumpNShootMan.Sprite.GetBoundingRectangle().Height);
+            var manRectangle = new RectangleF(jumpNShootMan.Position.X + jumpNShootMan.Sprite.GetBoundingRectangle().Width / 2, jumpNShootMan.Position.Y + jumpNShootMan.Sprite.GetBoundingRectangle().Height / 2, jumpNShootMan.Sprite.GetBoundingRectangle().Width, jumpNShootMan.Sprite.GetBoundingRectangle().Height);
 
             manBody = CreateRectangleBody(world, manRectangle, BodyType.Dynamic);
             jumpNShootMan.Body = manBody;
+
 
         }
 
@@ -249,14 +266,29 @@ namespace JumpNShootMan
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null);
 
-            spriteBatch.Draw(tiledMap, gameTime: gameTime);
+        //    spriteBatch.Draw(tiledMap, gameTime: gameTime);
             //tiledMap.Draw(spriteBatch);
             //spriteBatch.Draw(jumpNShootMan.Sprite.TextureRegion.Texture, jumpNShootMan.Sprite.Position);
 
-            var sprite = jumpNShootMan.Sprite;
+//            var sprite = jumpNShootMan.Sprite;
             //  spriteBatch.Draw(sprite.TextureRegion.Texture, sprite.Position + sprite.Origin, sourceRectangle: sprite.TextureRegion.Bounds, color: sprite.Color * sprite.Alpha, rotation: sprite.Rotation, origin: sprite.Origin);
 
             spriteBatch.Draw(jumpNShootMan.Sprite);
+
+            Matrix proj = Matrix.CreateOrthographicOffCenter(0f, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
+            // Matrix view = camera.GetViewMatrix(Vector2.One);
+
+            Matrix view = Matrix.CreateTranslation(new Vector3(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height / 2.0f, 0.0f));
+            physicsDebug.RenderDebugData(ref proj, ref view);
+
+
+            foreach (Body body in platforms)
+            {
+                var groundSprite = new Sprite(groundTexture);
+                groundSprite.Position = new Vector2(ConvertUnits.ToDisplayUnits(body.Position.X), ConvertUnits.ToDisplayUnits(body.Position.Y));
+                spriteBatch.Draw(groundSprite);
+            }
+
             spriteBatch.End();
 
             // TODO: Add your drawing code here
