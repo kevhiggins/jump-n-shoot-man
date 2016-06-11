@@ -35,6 +35,7 @@ namespace JumpNShootMan
         private GraphicsDeviceManager graphics;
         private Man jumpNShootMan;
         private SpriteBatch spriteBatch;
+        private SpriteBatch mapSpriteBatch;
         public TiledMap tiledMap;
         public Song song;
         public SoundEffect playerDeathSting;
@@ -71,7 +72,7 @@ namespace JumpNShootMan
         protected override void Initialize()
         {
             base.Initialize();
-            var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, (int)(1280 / PIXELS_PER_METER), (int)(704 / PIXELS_PER_METER));
+            var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1280 / PIXELS_PER_METER, 704 / PIXELS_PER_METER);
             camera = new Camera2D(viewportAdapter);
         }
 
@@ -83,6 +84,7 @@ namespace JumpNShootMan
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            mapSpriteBatch = new SpriteBatch(GraphicsDevice);
             tiledMap = Content.Load<TiledMap>("Maps/level-1/level-1");
 
             var gameObjectsLayer = tiledMap.GetObjectGroup("GameObjects");
@@ -171,8 +173,8 @@ namespace JumpNShootMan
         {
             var halfWidth = ConvertUnits.ToSimUnits(rectangle.Width / 2);
             var halfHeight = ConvertUnits.ToSimUnits(rectangle.Height / 2);
-            var x = ConvertUnits.ToSimUnits(rectangle.X);
-            var y = ConvertUnits.ToSimUnits(rectangle.Y);
+            var x = ConvertUnits.ToSimUnits(rectangle.X) + halfWidth;
+            var y = ConvertUnits.ToSimUnits(rectangle.Y) + halfHeight;
 
             if (halfWidth <= 0)
                 throw new ArgumentOutOfRangeException("width", "Width must be more than 0 meters");
@@ -239,12 +241,16 @@ namespace JumpNShootMan
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             var viewMatrix = camera.GetViewMatrix(Vector2.Zero);
-            
+
+            mapSpriteBatch.Begin();
+            mapSpriteBatch.Draw(tiledMap, gameTime: gameTime);
+            mapSpriteBatch.End();
+
 
             //spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null);
             spriteBatch.Begin(transformMatrix:viewMatrix);
 
-            //    spriteBatch.Draw(tiledMap, gameTime: gameTime);
+          //      spriteBatch.Draw(tiledMap, gameTime: gameTime);
             //tiledMap.Draw(spriteBatch);
             //spriteBatch.Draw(jumpNShootMan.Sprite.TextureRegion.Texture, jumpNShootMan.Sprite.Position);
 
