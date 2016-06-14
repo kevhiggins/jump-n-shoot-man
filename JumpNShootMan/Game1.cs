@@ -104,7 +104,10 @@ namespace JumpNShootMan
 
             var animationGroup = Content.Load<SpriteSheetAnimationFactory>("Sprites/jumpman-animations");
 
-            jumpNShootMan = new Man(new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height), new SpriteSheetAnimator(animationGroup), this);
+            Debug.WriteLine(playerStartObject.X);
+            Debug.WriteLine(playerStartObject.Y);
+
+            jumpNShootMan = new Man(new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height - playerStartObject.Height / 2), new SpriteSheetAnimator(animationGroup), this);
             jumpNShootMan.TileMap = tiledMap;
 
             this.song = Content.Load<Song>("Sounds/BGM");
@@ -128,6 +131,8 @@ namespace JumpNShootMan
             FarseerPhysics.Settings.ContinuousPhysics = false;
 
             world = new World(new Vector2(0f, 9.82f));
+            Settings.MaxPolygonVertices = 12;
+
             physicsDebug = new DebugViewXNA(world);
             physicsDebug.LoadContent(this.GraphicsDevice, this.Content);
             physicsDebug.AppendFlags(DebugViewFlags.Shape);
@@ -160,8 +165,7 @@ namespace JumpNShootMan
             // Add man
             //jumpNShootMan
             // TODO use floating point rectangles
-            Debug.WriteLine(jumpNShootMan.Sprite.GetBoundingRectangle());
-            var manRectangle = new RectangleF(jumpNShootMan.Position.X + jumpNShootMan.Sprite.GetBoundingRectangle().Width / 2, jumpNShootMan.Position.Y + jumpNShootMan.Sprite.GetBoundingRectangle().Height / 2, jumpNShootMan.Sprite.GetBoundingRectangle().Width, jumpNShootMan.Sprite.GetBoundingRectangle().Height);
+            var manRectangle = new RectangleF(jumpNShootMan.Position.X + jumpNShootMan.Sprite.GetBoundingRectangle().Width / 2, jumpNShootMan.Position.Y + jumpNShootMan.Sprite.GetBoundingRectangle().Height / 2, jumpNShootMan.Sprite.GetBoundingRectangle().Width / 2 - 10, jumpNShootMan.Sprite.GetBoundingRectangle().Height);
 
             manBody = CreateManBody(world, manRectangle, BodyType.Dynamic);
             jumpNShootMan.Body = manBody;
@@ -205,9 +209,41 @@ namespace JumpNShootMan
                 throw new ArgumentOutOfRangeException("height", "Height must be more than 0 meters");
 
             Body newBody = new Body(world, new Vector2(x, y), bodyType: bodyType);
-//            Vertices rectangleVertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
-            var capsuleVertices = PolygonTools.CreateCapsule(halfHeight * 2, halfWidth / 2, 3);
-            PolygonShape shape = new PolygonShape(capsuleVertices, density);
+
+
+
+            var vertices = new Vertices();
+            var trimCornerAmount = .03f;
+            var slopeMultiplierX = 10;
+            var slopeMultiplierY = 0.5f;
+
+            var trimCornerAmountSide = .05f;
+            var slopeMultiplierXSide = 0.5f;
+            var slopeMultiplerYSide = 20;
+
+
+            // Upper left
+            vertices.Add(new Vector2(-halfWidth - trimCornerAmount * slopeMultiplierXSide, -halfHeight + trimCornerAmount * slopeMultiplerYSide));
+            vertices.Add(new Vector2(-halfWidth, -halfHeight + trimCornerAmount * slopeMultiplierY));
+            vertices.Add(new Vector2(-halfWidth + trimCornerAmount * slopeMultiplierX, -halfHeight));
+            // Upper right
+            vertices.Add(new Vector2(halfWidth + trimCornerAmount * slopeMultiplierXSide, -halfHeight + trimCornerAmount * slopeMultiplerYSide));
+            vertices.Add(new Vector2(halfWidth, -halfHeight + trimCornerAmount * slopeMultiplierY));
+            vertices.Add(new Vector2(halfWidth - trimCornerAmount * slopeMultiplierX, -halfHeight));
+            // Lower right
+            vertices.Add(new Vector2(halfWidth + trimCornerAmount * slopeMultiplierXSide, halfHeight - trimCornerAmount * slopeMultiplerYSide));
+            vertices.Add(new Vector2(halfWidth, halfHeight - trimCornerAmount * slopeMultiplierY));
+            vertices.Add(new Vector2(halfWidth - trimCornerAmount * slopeMultiplierX, halfHeight));
+            // Lower left
+            vertices.Add(new Vector2(-halfWidth - trimCornerAmount * slopeMultiplierXSide, halfHeight - trimCornerAmount * slopeMultiplerYSide));
+            vertices.Add(new Vector2(-halfWidth, halfHeight - trimCornerAmount * slopeMultiplierY));
+            vertices.Add(new Vector2(-halfWidth + trimCornerAmount * slopeMultiplierX, halfHeight));
+
+
+            Vertices rectangleVertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
+         //   var capsuleVertices = PolygonTools.CreateCapsule(halfHeight * 2, halfWidth / 2, 3);
+
+            PolygonShape shape = new PolygonShape(vertices, density);
             newBody.CreateFixture(shape, userData);
 
             return newBody;
@@ -280,7 +316,7 @@ namespace JumpNShootMan
             //            var sprite = jumpNShootMan.Sprite;
             //  spriteBatch.Draw(sprite.TextureRegion.Texture, sprite.Position + sprite.Origin, sourceRectangle: sprite.TextureRegion.Bounds, color: sprite.Color * sprite.Alpha, rotation: sprite.Rotation, origin: sprite.Origin);
 
-            Debug.WriteLine(viewMatrix);
+
 
 
             var scale = jumpNShootMan.Sprite.Scale;

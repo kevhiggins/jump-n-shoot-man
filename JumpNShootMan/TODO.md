@@ -1,6 +1,6 @@
-﻿Fix collision
-
-Fix jumping and moving for char
+﻿Fix issue where man is spawning in wrong spot - Make a converter from tiled object location to world location
+Add collision with bottom of screen.
+Add Jumping again
 
 Add enemy
 Add shooting

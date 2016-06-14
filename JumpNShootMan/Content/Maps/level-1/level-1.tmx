@@ -136,7 +136,7 @@
 </data>
  </layer>
  <objectgroup name="GameObjects">
-  <object id="6" name="PlayerStart" gid="3" x="142" y="534" width="32" height="40"/>
+  <object id="6" name="PlayerStart" gid="3" x="57" y="573" width="120" height="120"/>
   <object id="8" name="Goal" x="288" y="66" width="31" height="29"/>
  </objectgroup>
  <imagelayer name="test/notes">
