@@ -272,6 +272,8 @@ namespace JumpNShootMan
 
 //            sensor.OnCollision = new OnCollisionEventHandler(OnCollisionEventHandler target);
 
+//            newBody.IsBullet = true;
+
             return newBody;
         }
 
@@ -291,9 +293,9 @@ namespace JumpNShootMan
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-            //   Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //     Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+               Keyboard.GetState().IsKeyDown(Keys.Escape))
+                 Exit();
 
             world.Step(1 / 60f);
 
