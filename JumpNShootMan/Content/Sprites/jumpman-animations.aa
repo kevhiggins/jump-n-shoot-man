@@ -5,26 +5,26 @@
       "Name": "Idle",
       "FramesPerSecond": 8,
       "Frames": [
-        "jumpmanv3BIG0000"
+        "jumpmanv2detail20000"
       ]
     },
     {
       "Name": "Walk",
       "FramesPerSecond": 8,
       "Frames": [
-        "jumpmanv3BIG0002",
-        "jumpmanv3BIG0003",
-        "jumpmanv3BIG0004",
-        "jumpmanv3BIG0005",
-        "jumpmanv3BIG0006",
-        "jumpmanv3BIG0007"
+        "jumpmanv2detail20002",
+        "jumpmanv2detail20003",
+        "jumpmanv2detail20004",
+        "jumpmanv2detail20005",
+        "jumpmanv2detail20006",
+        "jumpmanv2detail20007"
       ]
     },
     {
       "Name": "Jump",
       "FramesPerSecond": 8,
       "Frames": [
-        "jumpmanv3BIG0011"
+        "jumpmanv2detail20008"
       ]
     }
   ]
