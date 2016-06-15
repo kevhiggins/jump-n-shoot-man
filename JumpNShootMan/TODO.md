@@ -1,7 +1,19 @@
-﻿Fix issue where man is spawning in wrong spot - Make a converter from tiled object location to world location
+﻿Remove skiis
+Add flat connected ground
+Fix jumping for good
+Add horizontal Scrolling
+SHOOT SHIT
+KILL SHIT
+ENEMY sounds
+GOAL DETECTION
+
+
+
+Fix issue where man is spawning in wrong spot - Make a converter from tiled object location to world location
 Fix issue where man will bounce left/right when he lands from a collision
 
 Add Jumping again
+Do scrolling
 
 Add enemy
 Add shooting
