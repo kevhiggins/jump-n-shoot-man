@@ -14,6 +14,8 @@ Fix short hops
 Fix jumping really faster animation where we never see idle frames
 Fix jump animation where the animation is walking or idling in the air
 
+One way platforms
+
 
 Add walking inertia
 

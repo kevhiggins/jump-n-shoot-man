@@ -116,7 +116,7 @@ namespace JumpNShootMan
             MediaPlayer.Volume = 0.05f;
             MediaPlayer.IsRepeating = true;
             SoundEffect.MasterVolume = 0.1f;
-
+            jumpNShootMan.Sprite.Scale = new Vector2(3, 3);
 
 
             //MediaPlayer.Play(song);
@@ -300,6 +300,9 @@ namespace JumpNShootMan
             jumpNShootMan.Position = new Vector2(manBody.Position.X, manBody.Position.Y);
 
             jumpNShootMan.Update(gameTime);
+
+            camera.Zoom = 1;
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -346,7 +349,7 @@ namespace JumpNShootMan
 
 
             var scale = jumpNShootMan.Sprite.Scale;
-            jumpNShootMan.Sprite.Scale = new Vector2(1 / PIXELS_PER_METER, 1 / PIXELS_PER_METER);
+            jumpNShootMan.Sprite.Scale = new Vector2(1 / PIXELS_PER_METER, 1 / PIXELS_PER_METER) * new Vector2(3, 3);
             //jumpNShootMan.Sprite.Scale = camera.
             spriteBatch.Draw(jumpNShootMan.Sprite);
 
