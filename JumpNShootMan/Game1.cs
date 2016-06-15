@@ -336,7 +336,7 @@ namespace JumpNShootMan
 
 
             //spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null);
-            spriteBatch.Begin(transformMatrix:viewMatrix);
+            spriteBatch.Begin(transformMatrix:viewMatrix, samplerState: SamplerState.PointClamp);
 
           //      spriteBatch.Draw(tiledMap, gameTime: gameTime);
             //tiledMap.Draw(spriteBatch);
