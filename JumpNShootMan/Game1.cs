@@ -130,7 +130,7 @@ namespace JumpNShootMan
             FarseerPhysics.Settings.AllowSleep = true;
             FarseerPhysics.Settings.ContinuousPhysics = false;
 
-            world = new World(new Vector2(0f, 9.82f));
+            world = new World(new Vector2(0f, 70f));
             Settings.MaxPolygonVertices = 12;
 
             physicsDebug = new DebugViewXNA(world);
@@ -167,7 +167,7 @@ namespace JumpNShootMan
             // TODO use floating point rectangles
             var manRectangle = new RectangleF(jumpNShootMan.Position.X + jumpNShootMan.Sprite.GetBoundingRectangle().Width / 2, jumpNShootMan.Position.Y + jumpNShootMan.Sprite.GetBoundingRectangle().Height / 2, jumpNShootMan.Sprite.GetBoundingRectangle().Width / 2 - 10, jumpNShootMan.Sprite.GetBoundingRectangle().Height);
 
-            manBody = CreateManBody(world, manRectangle, BodyType.Dynamic);
+            manBody = CreateManBody(jumpNShootMan, world, manRectangle, BodyType.Dynamic);
             jumpNShootMan.Body = manBody;
 
 
@@ -195,7 +195,7 @@ namespace JumpNShootMan
             return newBody;
         }
 
-        public static Body CreateManBody(World world, RectangleF rectangle, BodyType bodyType = BodyType.Static, float density = 0, object userData = null)
+        public static Body CreateManBody(Man man, World world, RectangleF rectangle, BodyType bodyType = BodyType.Static, float density = 0, object userData = null)
         {
             var halfWidth = ConvertUnits.ToSimUnits(rectangle.Width / 2);
             var halfHeight = ConvertUnits.ToSimUnits(rectangle.Height / 2);
@@ -217,34 +217,60 @@ namespace JumpNShootMan
             var slopeMultiplierX = 10;
             var slopeMultiplierY = 0.5f;
 
-            var trimCornerAmountSide = .05f;
+            var trimCornerAmountSide = .03f;
             var slopeMultiplierXSide = 0.5f;
             var slopeMultiplerYSide = 20;
 
 
             // Upper left
-            vertices.Add(new Vector2(-halfWidth - trimCornerAmount * slopeMultiplierXSide, -halfHeight + trimCornerAmount * slopeMultiplerYSide));
+            vertices.Add(new Vector2(-halfWidth - trimCornerAmountSide * slopeMultiplierXSide, -halfHeight + trimCornerAmountSide * slopeMultiplerYSide));
             vertices.Add(new Vector2(-halfWidth, -halfHeight + trimCornerAmount * slopeMultiplierY));
             vertices.Add(new Vector2(-halfWidth + trimCornerAmount * slopeMultiplierX, -halfHeight));
             // Upper right
-            vertices.Add(new Vector2(halfWidth + trimCornerAmount * slopeMultiplierXSide, -halfHeight + trimCornerAmount * slopeMultiplerYSide));
+            vertices.Add(new Vector2(halfWidth + trimCornerAmountSide * slopeMultiplierXSide, -halfHeight + trimCornerAmountSide * slopeMultiplerYSide));
             vertices.Add(new Vector2(halfWidth, -halfHeight + trimCornerAmount * slopeMultiplierY));
             vertices.Add(new Vector2(halfWidth - trimCornerAmount * slopeMultiplierX, -halfHeight));
             // Lower right
-            vertices.Add(new Vector2(halfWidth + trimCornerAmount * slopeMultiplierXSide, halfHeight - trimCornerAmount * slopeMultiplerYSide));
+            vertices.Add(new Vector2(halfWidth + trimCornerAmountSide * slopeMultiplierXSide, halfHeight - trimCornerAmountSide * slopeMultiplerYSide));
             vertices.Add(new Vector2(halfWidth, halfHeight - trimCornerAmount * slopeMultiplierY));
             vertices.Add(new Vector2(halfWidth - trimCornerAmount * slopeMultiplierX, halfHeight));
             // Lower left
-            vertices.Add(new Vector2(-halfWidth - trimCornerAmount * slopeMultiplierXSide, halfHeight - trimCornerAmount * slopeMultiplerYSide));
+            vertices.Add(new Vector2(-halfWidth - trimCornerAmountSide * slopeMultiplierXSide, halfHeight - trimCornerAmountSide * slopeMultiplerYSide));
             vertices.Add(new Vector2(-halfWidth, halfHeight - trimCornerAmount * slopeMultiplierY));
             vertices.Add(new Vector2(-halfWidth + trimCornerAmount * slopeMultiplierX, halfHeight));
 
 
-            Vertices rectangleVertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
-         //   var capsuleVertices = PolygonTools.CreateCapsule(halfHeight * 2, halfWidth / 2, 3);
-
-            PolygonShape shape = new PolygonShape(vertices, density);
+            var shape = new PolygonShape(vertices, density);
             newBody.CreateFixture(shape, userData);
+
+            // TODO check if a block is to the right or left of the sensor collision, and don't allow jumping if so.
+            var sensorVertices = new Vertices();
+            var sensorHeight = .01f;
+            var sensorWidthPadding = .9f;
+            // Upper left
+            sensorVertices.Add(new Vector2(-halfWidth * sensorWidthPadding, halfHeight));
+            // Lower left
+            sensorVertices.Add(new Vector2(-halfWidth * sensorWidthPadding, halfHeight + sensorHeight));
+            // Lower right
+            sensorVertices.Add(new Vector2(halfWidth * sensorWidthPadding, halfHeight + sensorHeight));
+            // Upper right
+            sensorVertices.Add(new Vector2(halfWidth * sensorWidthPadding, halfHeight));
+
+            var footSensorShape = new PolygonShape(sensorVertices, density);
+            var sensor = newBody.CreateFixture(footSensorShape, userData);
+            sensor.IsSensor = true;
+
+//            void HandleFootCollision()
+//            {
+//                
+//            }
+
+       //     OnCollisionEventHandler handler = new OnCollisionEventHandler(jumpNShootMan.OnFootSensorCollisionEvent);
+
+            sensor.OnCollision = new OnCollisionEventHandler(man.OnFootSensorCollisionEvent);
+            sensor.OnSeparation = new OnSeparationEventHandler(man.OnFootSensorSeparationEvent);
+
+//            sensor.OnCollision = new OnCollisionEventHandler(OnCollisionEventHandler target);
 
             return newBody;
         }
@@ -270,7 +296,7 @@ namespace JumpNShootMan
             //     Exit();
 
             world.Step(1 / 60f);
-      //      Debug.WriteLine(new Vector2(manBody.Position.X * PIXELS_PER_METER, manBody.Position.Y * PIXELS_PER_METER));
+
             jumpNShootMan.Position = new Vector2(manBody.Position.X, manBody.Position.Y);
 
             jumpNShootMan.Update(gameTime);

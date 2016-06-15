@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
 using JumpNShootMan.Game.Common;
 using JumpNShootMan.Game.Tiled;
 using Microsoft.Xna.Framework;
@@ -25,10 +27,12 @@ namespace JumpNShootMan.Game
         Right
     }
 
-    class Man : AnimatedSprite
+    public class Man : AnimatedSprite
     {
         public int Speed { get; } = 3;
         public int Gravity { get; } = 3;
+
+        public int footContactCount = 0;
 
         /// <summary>
         /// Gets whether or not the player's feet are on the ground.
@@ -61,10 +65,12 @@ namespace JumpNShootMan.Game
         private ManState lastState;
 
         // Constants for controling horizontal movement
-        private const float MoveAcceleration = 7000.0f;
-        private const float MaxMoveSpeed = 600.0f;
-        private const float GroundDragFactor = 0.48f;
-        private const float AirDragFactor = 0.48f;
+//        private const float MoveAcceleration = 7000.0f;
+//        private const float MaxMoveSpeed = 600.0f;
+//        private const float GroundDragFactor = 0.48f;
+//        private const float AirDragFactor = 0.48f;
+
+        private const float MoveSpeed = 120;
 
         // Constants for controlling vertical movement
         private const float MaxJumpTime = 0.2f;
@@ -97,6 +103,12 @@ namespace JumpNShootMan.Game
         public override void Update(GameTime gameTime)
         {
             GetInput(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
+
+            isOnGround = footContactCount > 0;
+
+            Debug.WriteLine(isOnGround);
+
+            ApplyPhysics(gameTime);
 
             /*  ApplyPhysics(gameTime);
               if (IsOnGround == false)
@@ -180,10 +192,6 @@ namespace JumpNShootMan.Game
             State = (int)movement == 0 ? ManState.Idle : ManState.Walking;
 
             Sprite.Effect = Direction == ManDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-           // Body.ApplyForce(new Vector2(movement * 6, 0));
-          // Debug.WriteLine(Body.LinearVelocity);
-            Body.LinearVelocity = new Vector2(movement * 2, Body.LinearVelocity.Y);
         }
 
 
@@ -196,6 +204,44 @@ namespace JumpNShootMan.Game
 
             previousPosition = Position;
 
+            var initialY = Body.LinearVelocity.Y;
+
+
+
+            var newVelocity = new Vector2(movement * MoveSpeed * elapsed, Body.LinearVelocity.Y);
+
+
+            Body.LinearVelocity = newVelocity;
+
+
+            if (jumpTime > 0 && isJumping)
+            {
+                Body.GravityScale = 0;
+            }
+            else
+            {
+                Body.GravityScale = 1;
+            }
+
+            //       newVelocity.Y = MathHelper.Clamp(newVelocity.Y, -MaxFallSpeed, MaxFallSpeed);
+            //            newVelocity.Y 
+            DoJump(gameTime);
+//
+
+
+
+
+
+
+            // Apply pseudo-drag horizontally.
+            //            if (IsOnGround)
+            //                velocity.X *= GroundDragFactor;
+            //            else
+            //                velocity.X *= AirDragFactor;
+
+
+
+            /*
 
 
             // Base velocity is a combination of horizontal movement control and
@@ -206,11 +252,7 @@ namespace JumpNShootMan.Game
 
 //            Debug.WriteLine(velocity);
 
-            // Apply pseudo-drag horizontally.
-            if (IsOnGround)
-                velocity.X *= GroundDragFactor;
-            else
-                velocity.X *= AirDragFactor;
+
 
             // Prevent the player from running faster than his top speed.            
             velocity.X = MathHelper.Clamp(velocity.X, -MaxMoveSpeed, MaxMoveSpeed);
@@ -220,26 +262,17 @@ namespace JumpNShootMan.Game
 //            Debug.WriteLine(Position);
 //            Position = new Vector2((float)Math.Round(Position.X), (float)Math.Round(Position.Y));
 
-            // If the player is now colliding with the level, separate them.
-            HandleCollisions();
-
-
-            CheckBottomMapCollision();
-//          If the collision stopped us from moving, reset the velocity to zero.
-//            if (Position.X == previousPosition.X)
-//                velocity.X = 0;
-//            if (Position.Y == previousPosition.Y)
-//                velocity.Y = 0;
-
+*/
         }
 
         private void CheckBottomMapCollision()
         {
-            if (Position.Y > TileMap.HeightInPixels)
+            if (Position.Y > ConvertUnits.ToSimUnits(TileMap.HeightInPixels))
             {
                 game.playerDeathSting.Play();
                 game.playerDeath.Play();
-                Position = StartPosition();
+                Body.Position = StartPosition();
+                Body.LinearVelocity = Vector2.Zero;
                 // Reset to start point
             }
         }
@@ -258,7 +291,7 @@ namespace JumpNShootMan.Game
                 throw new Exception("No player start point defined");
             }
 
-            return new Vector2(playerStartObject.X, playerStartObject.Y - playerStartObject.Height);
+            return new Vector2(ConvertUnits.ToSimUnits(playerStartObject.X), ConvertUnits.ToSimUnits(playerStartObject.Y - playerStartObject.Height - playerStartObject.Height / 2));
 
         }
 
@@ -279,21 +312,24 @@ namespace JumpNShootMan.Game
         /// A new Y velocity if beginning or continuing a jump.
         /// Otherwise, the existing Y velocity.
         /// </returns>
-        private float DoJump(float velocityY, GameTime gameTime)
+        private float DoJump(GameTime gameTime)
         {
+            float velocityY = 0;
+
             // If the player wants to jump
-            if (isJumping)
-            {
+
+                float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 // Begin or continue a jump
-                if ((!wasJumping && IsOnGround) || jumpTime > 0.0f)
+                if ((!wasJumping && IsOnGround && isJumping) || jumpTime > 0.0f)
                 {
                     // TODO Add sound
 //                    if (jumpTime == 0.0f)
 //                        jumpSound.Play();
 
-                    jumpTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    jumpTime += elapsed;
                     // TODO add jump animation
 //                    sprite.PlayAnimation(jumpAnimation);
+                    isOnGround = false;
                 }
 
                 // If we are in the ascent of the jump
@@ -302,108 +338,34 @@ namespace JumpNShootMan.Game
                     // Fully override the vertical velocity with a power curve that gives players more control over the top of the jump
                     //velocityY = JumpLaunchVelocity * (1.0f - (float)Math.Pow(jumpTime / MaxJumpTime, JumpControlPower));
                     //                    velocityY = JumpLaunchVelocity * (float)(jumpTime / MaxJumpTime);
-                    velocityY = JumpLaunchVelocity;
+                    
+                    //velocityY = JumpLaunchVelocity * elapsed;
+                    Debug.WriteLine("TESTING!");
+                    Body.ApplyLinearImpulse(new Vector2(0, -1.4f));
+                Debug.WriteLine(Body.LinearVelocity);
                 }
                 else
                 {
                     // Reached the apex of the jump
                     jumpTime = 0.0f;
                 }
-            }
-            else
-            {
-                // Continues not jumping or cancels a jump in progress
-                jumpTime = 0.0f;
-            }
+
             wasJumping = isJumping;
+
+            Debug.WriteLine(velocityY);
 
             return velocityY;
         }
 
-        /// <summary>
-        /// Detects and resolves all collisions between the player and his neighboring
-        /// tiles. When a collision is detected, the player is pushed away along one
-        /// axis to prevent overlapping. There is some special logic for the Y axis to
-        /// handle platforms which behave differently depending on direction of movement.
-        /// </summary>
-        private void HandleCollisions()
+        public bool OnFootSensorCollisionEvent(Fixture fixtureA, Fixture fixtureB, Contact contact)
         {
-            // Get the player's bounding rectangle and find neighboring tiles.
-            Rectangle bounds = Bounds;
+            footContactCount++;
+            return true;
+        }
 
-            var platformLayer = TiledHelper.FindTileLayer("Platforms", TileMap.TileLayers);
-            if(platformLayer == null) 
-                throw new Exception("Could not find Platform Layer");
-
-            var tileRectangle = TiledHelper.FindTileRectangle(Bounds, TileMap);
-
-            var adjacentTiles = TiledHelper.GetAdjacentTiles(tileRectangle.X, tileRectangle.Y, platformLayer);
-
-
-            // Reset flag to search for ground collision.
-            isOnGround = false;
-
-            var tileWidth = platformLayer.TileWidth;
-            var tileHeight = platformLayer.TileHeight;
-
-            var obstructedOnX = false;
-            var obstructedOnY = false;
-
-            // For each potentially colliding tile,
-            foreach (var adjacentTile in adjacentTiles)
-            {
-
-                // Tile is not collidable. Continue loop.
-                if (adjacentTile == null || adjacentTile.Id == 0)
-                    continue;
-
-                // Determine collision depth (with direction) and magnitude.
-                Rectangle tileBounds = new Rectangle(adjacentTile.X * tileWidth, adjacentTile.Y * tileHeight, tileWidth, tileHeight);
-                Vector2 depth = RectangleExtensions.GetIntersectionDepth(bounds, tileBounds);
-
-                if (depth != Vector2.Zero)
-                {
-                    float absDepthX = Math.Abs(depth.X);
-                    float absDepthY = Math.Abs(depth.Y);
-
-                    // Resolve the collision along the shallow axis.
-                    if (absDepthY < absDepthX /*|| collision == TileCollision.Platform */)
-                    {
-                        if (depth.Y < 0)
-                        {
-                            isOnGround = true;
-                        }
-                        // Resolve the collision along the Y axis.
-                        Position = new Vector2(Position.X, bounds.Y + depth.Y);
-                        obstructedOnY = true;
-
-                        // Perform further collisions with the new bounds.
-                        bounds = Bounds;
-                    }
-                    else /*if (collision == TileCollision.Impassable) */ // Ignore platforms.
-                    {
-                        // Resolve the collision along the X axis.
-                        Position = new Vector2(Position.X + depth.X, Position.Y);
-                        obstructedOnX = true;
-
-                        // Perform further collisions with the new bounds.
-                        bounds = Bounds;
-                    }
-                }
-            }
-//            Debug.WriteLine(isOnGround);
-
-            if (obstructedOnX)
-                velocity.X = 0;
-            if (obstructedOnY)
-            {
-                velocity.Y = 0;
-                if(isJumping)
-                    jumpTime = MaxJumpTime;
-            }
-
-            // Save the new bounds bottom.
-            previousBottom = bounds.Bottom;
+        public void OnFootSensorSeparationEvent(Fixture fixtureA, Fixture fixtureB)
+        {
+            footContactCount--;
         }
     }
 }

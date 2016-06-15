@@ -1,5 +1,6 @@
 ﻿Fix issue where man is spawning in wrong spot - Make a converter from tiled object location to world location
-Add collision with bottom of screen.
+Fix issue where man will bounce left/right when he lands from a collision
+
 Add Jumping again
 
 Add enemy

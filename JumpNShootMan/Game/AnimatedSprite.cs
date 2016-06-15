@@ -14,7 +14,7 @@ using MonoGame.Extended.Animations.SpriteSheets;
 
 namespace JumpNShootMan.Game
 {
-    abstract class AnimatedSprite : ISprite, IActorTarget
+    public abstract class AnimatedSprite : ISprite, IActorTarget
     {
         public Vector2 Position
         {
