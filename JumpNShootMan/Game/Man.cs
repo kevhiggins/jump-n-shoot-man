@@ -70,7 +70,7 @@ namespace JumpNShootMan.Game
 //        private const float GroundDragFactor = 0.48f;
 //        private const float AirDragFactor = 0.48f;
 
-        private const float MoveSpeed = 120;
+        private const float MoveSpeed = 240;
 
         // Constants for controlling vertical movement
         private const float MaxJumpTime = 0.2f;
