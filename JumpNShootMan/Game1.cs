@@ -19,6 +19,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Common;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.DebugView;
+using JumpNShootMan.Game.Maps;
 using MonoGame.Extended;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.ViewportAdapters;
@@ -146,6 +147,9 @@ namespace JumpNShootMan
             if (platformLayer == null)
                 throw new Exception("Could not find Platform Layer");
 
+
+            var edgeTracer = new EdgeTracer();
+            edgeTracer.TraceEdges(tiledMap, platformLayer);
 
             // Add platform tiles
             foreach (TiledTile tile in platformLayer.Tiles)

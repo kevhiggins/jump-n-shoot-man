@@ -44,6 +44,7 @@
     <Compile Include="Game\Common\VectorMath.cs" />
     <Compile Include="Game\DebugViewXNA.cs" />
     <Compile Include="Game\Man.cs" />
+    <Compile Include="Game\Maps\EdgeTracer.cs" />
     <Compile Include="Game\PrimitiveBatch.cs" />
     <Compile Include="Game\Sprite.cs" />
     <Compile Include="Game\ISprite.cs" />
@@ -106,7 +107,6 @@
     <None Include="Content\Maps\level-1\level-1.tmx" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Game\Maps\" />
     <Folder Include="Game\Sprites\" />
   </ItemGroup>
   <ItemGroup>
