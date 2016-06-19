@@ -1,5 +1,5 @@
 {
-  "TextureAtlas": "jumpman-atlas.json",
+  "TextureAtlas": "..\\..\\..\\..\\desktop\\sprite lab\\jumpmanv2\\v3\\jumpman-atlas.json",
   "Animations": [
     {
       "Name": "Idle",
@@ -56,6 +56,13 @@
       "Frames": [
         "jumpmanv2detail20008",
         "jumpmanv2detail20009"
+      ]
+    },
+    {
+      "Name": "WalkTransition",
+      "FramesPerSecond": 8,
+      "Frames": [
+        "jumpmanv2detail20001"
       ]
     }
   ]
