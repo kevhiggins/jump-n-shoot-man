@@ -2,6 +2,8 @@
 Spawns funny sometimes when Dying
 Bounces through ground a little.
 
+Figure out when to destroy bullets that have gone off screen
+
 Remove skiis
 Add flat connected ground
 Fix jumping for good

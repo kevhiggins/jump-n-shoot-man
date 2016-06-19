@@ -93,6 +93,9 @@ namespace JumpNShootMan.Game
         private const float JumpStopVelocity = -2f;
         private const float JumpVelocity = -4f;
 
+        // Shooting
+        private const float ShootSpeed = 4;
+
         // Input configuration
         private const float MoveStickScale = 1.0f;
         private const Buttons JumpButton = Buttons.A;
@@ -289,10 +292,10 @@ namespace JumpNShootMan.Game
             var rectangle = new RectangleF(ConvertUnits.ToDisplayUnits(Position.X), ConvertUnits.ToDisplayUnits(Position.Y), bulletTexture.Width, bulletTexture.Height);
             var bulletBody = Game1.CreateRectangleBody(game.world, rectangle, BodyType.Dynamic, 0, bullet);
             bulletBody.GravityScale = 0;
-//
-//            bullet.Body = bulletBody;
-//
-            bulletBody.LinearVelocity = new Vector2(4, 0);
+
+            var directionMultiplier = Direction == ManDirection.Left ? -1 : 1;
+
+            bulletBody.LinearVelocity = new Vector2(ShootSpeed * directionMultiplier, 0);
             bulletBody.OnCollision += new OnCollisionEventHandler(bullet.OnCollisionEvent);
 
         }
