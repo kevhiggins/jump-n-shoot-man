@@ -21,10 +21,41 @@
       ]
     },
     {
-      "Name": "Jump",
+      "Name": "JumpStart",
       "FramesPerSecond": 8,
       "Frames": [
-        "jumpmanv2detail20008"
+        "jumpmanv2detail20005",
+        "jumpmanv2detail20008",
+        "jumpmanv2detail20009"
+      ]
+    },
+    {
+      "Name": "Hang",
+      "FramesPerSecond": 8,
+      "Frames": [
+        "jumpmanv2detail20010"
+      ]
+    },
+    {
+      "Name": "Fall",
+      "FramesPerSecond": 8,
+      "Frames": [
+        "jumpmanv2detail20011"
+      ]
+    },
+    {
+      "Name": "FallEnd",
+      "FramesPerSecond": 8,
+      "Frames": [
+        "jumpmanv2detail20005"
+      ]
+    },
+    {
+      "Name": "JumpStart2",
+      "FramesPerSecond": 8,
+      "Frames": [
+        "jumpmanv2detail20008",
+        "jumpmanv2detail20009"
       ]
     }
   ]
