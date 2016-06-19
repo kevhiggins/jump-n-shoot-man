@@ -3,6 +3,7 @@ Spawns funny sometimes when Dying
 Bounces through ground a little.
 
 Figure out when to destroy bullets that have gone off screen
+Move bullet to be right beside what it collides with before it vanishes.
 
 Remove skiis
 Add flat connected ground

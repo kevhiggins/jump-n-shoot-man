@@ -42,6 +42,8 @@ namespace JumpNShootMan
         public SoundEffect playerDeathSting;
         public SoundEffect playerDeath;
         public World world;
+        public List<Bullet> bullets;
+
         Body manBody;
         private List<Body> platforms = new List<Body>();
         private Texture2D groundTexture;
@@ -75,6 +77,7 @@ namespace JumpNShootMan
             base.Initialize();
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1280 / PIXELS_PER_METER, 704 / PIXELS_PER_METER);
             camera = new Camera2D(viewportAdapter);
+            bullets = new List<Bullet>();
         }
 
         /// <summary>
@@ -393,6 +396,11 @@ namespace JumpNShootMan
 
             jumpNShootMan.Update(gameTime);
 
+            foreach (var bullet in bullets)
+            {
+                bullet.Update();
+            }
+
             camera.Zoom = 1;
 
             // TODO: Add your update logic here
@@ -400,7 +408,7 @@ namespace JumpNShootMan
             base.Update(gameTime);
         }
 
-        private static void ColorTexture(Texture2D texture, Color color)
+        public static void ColorTexture(Texture2D texture, Color color)
         {
             // Fill the texture with red pixels
             var pixelCount = texture.Width*texture.Height;
@@ -445,6 +453,12 @@ namespace JumpNShootMan
             //jumpNShootMan.Sprite.Scale = camera.
             spriteBatch.Draw(jumpNShootMan.Sprite);
 
+            foreach (var bullet in bullets)
+            {
+                bullet.Scale = new Vector2(1 / PIXELS_PER_METER, 1 / PIXELS_PER_METER) * new Vector2(3, 3);
+                spriteBatch.Draw(bullet);
+            }
+
 
             Matrix proj = Matrix.CreateOrthographicOffCenter(0f, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
             //Matrix view = camera.GetViewMatrix(Vector2.One);
@@ -453,7 +467,7 @@ namespace JumpNShootMan
 //            var view = camera.GetViewMatrix(Vector2.One);
 
 
-            physicsDebug.RenderDebugData(ref proj, ref viewMatrix);
+//            physicsDebug.RenderDebugData(ref proj, ref viewMatrix);
 
 
             foreach (Body body in platforms)

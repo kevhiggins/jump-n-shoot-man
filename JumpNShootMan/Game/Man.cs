@@ -286,10 +286,13 @@ namespace JumpNShootMan.Game
 
         private void ShootBullet(GameTime gameTime)
         {
-            var bulletTexture = new Texture2D(game.GraphicsDevice, 10, 10);
-            var bullet = new Bullet( bulletTexture);
+            var bulletTexture = new Texture2D(game.GraphicsDevice, 10, 5);
+            Game1.ColorTexture(bulletTexture, Color.Red);
 
-            var rectangle = new RectangleF(ConvertUnits.ToDisplayUnits(Position.X), ConvertUnits.ToDisplayUnits(Position.Y), bulletTexture.Width, bulletTexture.Height);
+            var bullet = new Bullet(game, bulletTexture);
+            game.bullets.Add(bullet);
+
+            var rectangle = new RectangleF(ConvertUnits.ToDisplayUnits(Position.X), ConvertUnits.ToDisplayUnits(Position.Y) - 48, bulletTexture.Width, bulletTexture.Height);
             var bulletBody = Game1.CreateRectangleBody(game.world, rectangle, BodyType.Dynamic, 0, bullet);
             bulletBody.GravityScale = 0;
 
@@ -297,6 +300,8 @@ namespace JumpNShootMan.Game
 
             bulletBody.LinearVelocity = new Vector2(ShootSpeed * directionMultiplier, 0);
             bulletBody.OnCollision += new OnCollisionEventHandler(bullet.OnCollisionEvent);
+            bulletBody.IsBullet = true;
+            bullet.Body = bulletBody;
 
         }
 
