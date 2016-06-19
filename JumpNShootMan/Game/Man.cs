@@ -73,7 +73,7 @@ namespace JumpNShootMan.Game
         private const float MoveSpeed = 80;
 
         // Constants for controlling vertical movement
-        private const float MaxJumpTime = 0.2f;
+        private const float MaxJumpTime = 0.25f;
         private const float JumpLaunchVelocity = -370.0f;
         private const float GravityAcceleration = 2000.0f;
         private const float MaxFallSpeed = 550.0f;
@@ -227,6 +227,12 @@ namespace JumpNShootMan.Game
                 Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, JumpStopVelocity);
                 jumpTime = 0;
             }
+
+            if (Body.LinearVelocity.Y == 0)
+            {
+                jumpTime = 0;
+            }
+
 //            else
 //            {
 //                Body.GravityScale = 1;
