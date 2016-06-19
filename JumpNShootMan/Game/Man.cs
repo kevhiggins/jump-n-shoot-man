@@ -18,7 +18,11 @@ namespace JumpNShootMan.Game
     {
         Idle,
         Walking,
-        Jumping
+//        Jumping
+        JumpStart,
+        Hang,
+        Fall,
+        FallEnd
     }
 
     public enum ManDirection
@@ -123,7 +127,12 @@ namespace JumpNShootMan.Game
 
             if (isOnGround == false)
             {
-                State = ManState.Jumping;
+                //State = ManState.Jumping;
+            }
+
+            if (Body.LinearVelocity.Y > 0)
+            {
+                State = ManState.Fall;
             }
 
             UpdateAnimation();
@@ -144,8 +153,20 @@ namespace JumpNShootMan.Game
                     case ManState.Walking:
                         Animator.Play("Walk");
                         break;
-                    case ManState.Jumping:
-                        Animator.Play("Jump");
+//                    case ManState.Jumping:
+//                        Animator.Play("Jump");
+//                        break;
+                    case ManState.JumpStart:
+                        Animator.Play("JumpStart", () => State = ManState.Hang);
+                        break;
+                    case ManState.Hang:
+                        Animator.Play("JumpHang");
+                        break;
+                    case ManState.Fall:
+                        Animator.Play("Fall");
+                        break;
+                    case ManState.FallEnd:
+                        Animator.Play("FallEnd");
                         break;
                 }
             }
@@ -337,7 +358,7 @@ namespace JumpNShootMan.Game
                 // Begin or continue a jump
                 if ((!wasJumping && IsOnGround && isJumping) || jumpTime > 0.0f)
                 {
-                    State = ManState.Jumping;
+                    State = ManState.JumpStart;
                     // TODO Add sound
 //                    if (jumpTime == 0.0f)
 //                        jumpSound.Play();
