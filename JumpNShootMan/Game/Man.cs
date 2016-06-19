@@ -70,7 +70,7 @@ namespace JumpNShootMan.Game
 //        private const float GroundDragFactor = 0.48f;
 //        private const float AirDragFactor = 0.48f;
 
-        private const float MoveSpeed = 120;
+        private const float MoveSpeed = 80;
 
         // Constants for controlling vertical movement
         private const float MaxJumpTime = 0.2f;
@@ -78,6 +78,7 @@ namespace JumpNShootMan.Game
         private const float GravityAcceleration = 2000.0f;
         private const float MaxFallSpeed = 550.0f;
         private const float JumpControlPower = 0.1f;
+        private const float JumpStopVelocity = -1f;
 
         // Input configuration
         private const float MoveStickScale = 1.0f;
@@ -216,7 +217,7 @@ namespace JumpNShootMan.Game
 
             if (jumpTime > 0 && !isJumping)
             {
-                Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, 0);
+                Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, JumpStopVelocity);
                 jumpTime = 0;
             }
 //            else
@@ -342,15 +343,16 @@ namespace JumpNShootMan.Game
                     
                     //velocityY = JumpLaunchVelocity * elapsed;
 
-                    Body.LinearVelocity =new Vector2(Body.LinearVelocity.X, -3.50f);
+                    Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, -3.50f);
                     //Body.ApplyLinearImpulse(new Vector2(0, -.7f));
                 Debug.WriteLine(Body.LinearVelocity);
                 }
-                else
+                else if(jumpTime > MaxJumpTime)
                 {
                     // Reached the apex of the jump
                     jumpTime = 0.0f;
-                }
+                    Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, JumpStopVelocity);
+            }
 
             wasJumping = isJumping;
 
