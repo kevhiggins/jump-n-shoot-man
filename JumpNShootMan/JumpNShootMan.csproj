@@ -85,7 +85,6 @@
     <Content Include="Content\Sprites\jumpman-animations.aa" />
     <Content Include="Content\Sprites\jumpman.png" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\FarseerPhysics.Portable.dll" />
-    <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\FarseerPhysics.Portable.pdb" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Extended.Content.Pipeline.dll" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\Newtonsoft.Json.dll" />
     <Content Include="Dependencies\MonoGame.Extended.Content.Pipeline\MonoGame.Extended.dll" />

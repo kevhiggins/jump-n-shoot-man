@@ -48,7 +48,7 @@ namespace JumpNShootMan
         private DebugViewXNA physicsDebug;
         private Camera2D camera;
 
-        public const float PIXELS_PER_METER = 68;
+        public const float PIXELS_PER_METER = 68 * 3;
 
         // Create TileMap class // Needs to compare it's tiles to the Man, and anything else that could collide with them.
         // Add horizontal movement to man
@@ -129,11 +129,24 @@ namespace JumpNShootMan
         protected void LoadPhysicsWorld()
         {
             FarseerPhysics.Settings.AllowSleep = true;
-            FarseerPhysics.Settings.ContinuousPhysics = false;
+//            FarseerPhysics.Settings.ContinuousPhysics = false;
 
-            world = new World(new Vector2(0f, 40f));
-            Settings.MaxPolygonVertices = 12;
+//            Settings.VelocityIterations = 100;
+//            Settings.PositionIterations = 100;
+//            Settings.TOIPositionIterations = 100;
+//            Settings.TOIVelocityIterations = 100;
 
+            world = new World(new Vector2(0f, 9.8f));
+            //Settings.MaxPolygonVertices = 8;
+//            Settings.VelocityIterations = 200;
+            
+//            Settings.VelocityIterations = 100;
+//            Settings.PositionIterations = 100;
+//            Settings.PositionIterations = 128;
+//            Settings.VelocityIterations = 128;
+
+            
+            
             physicsDebug = new DebugViewXNA(world);
             physicsDebug.LoadContent(this.GraphicsDevice, this.Content);
             physicsDebug.AppendFlags(DebugViewFlags.Shape);
@@ -241,7 +254,9 @@ namespace JumpNShootMan
 
             Body newBody = new Body(world, bodyStart);
             var edgeShape = new EdgeShape(start, end);
-            newBody.CreateFixture(edgeShape);
+            var fixture = newBody.CreateFixture(edgeShape);
+            fixture.Restitution = 0;
+            fixture.Friction = 0;
         }
 
         public static Body CreateRectangleBody(World world, RectangleF rectangle, BodyType bodyType = BodyType.Static, float density = 0, object userData = null)
@@ -269,7 +284,7 @@ namespace JumpNShootMan
         public static Body CreateManBody(Man man, World world, RectangleF rectangle, BodyType bodyType = BodyType.Static, float density = 0, object userData = null)
         {
             var halfWidth = ConvertUnits.ToSimUnits(rectangle.Width / 2);
-            var halfHeight = ConvertUnits.ToSimUnits(rectangle.Height / 2);
+            var halfHeight = ConvertUnits.ToSimUnits(rectangle.Height / 2 - 3.5);
             var x = ConvertUnits.ToSimUnits(rectangle.X) + halfWidth;
             var y = ConvertUnits.ToSimUnits(rectangle.Y) + halfHeight;
 
@@ -315,9 +330,12 @@ namespace JumpNShootMan
             var vertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
 
             var shape = new PolygonShape(vertices, density);
-            newBody.CreateFixture(shape, userData);
+            var fixture = newBody.CreateFixture(shape, userData);
+            fixture.Restitution = 0;
+            
 
             // TODO check if a block is to the right or left of the sensor collision, and don't allow jumping if so.
+
             var sensorVertices = new Vertices();
             var sensorHeight = .01f;
             var sensorWidthPadding = .9f;
@@ -338,7 +356,8 @@ namespace JumpNShootMan
             sensor.OnCollision = new OnCollisionEventHandler(man.OnFootSensorCollisionEvent);
             sensor.OnSeparation = new OnSeparationEventHandler(man.OnFootSensorSeparationEvent);
 
-//            newBody.IsBullet = true;
+            newBody.IsBullet = true;
+            newBody.LinearDamping = 2;
 
             return newBody;
         }
@@ -429,7 +448,7 @@ namespace JumpNShootMan
 //            var view = camera.GetViewMatrix(Vector2.One);
 
 
-            physicsDebug.RenderDebugData(ref proj, ref viewMatrix);
+        //    physicsDebug.RenderDebugData(ref proj, ref viewMatrix);
 
 
             foreach (Body body in platforms)

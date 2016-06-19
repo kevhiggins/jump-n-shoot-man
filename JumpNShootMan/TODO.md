@@ -1,4 +1,8 @@
-﻿Remove skiis
+﻿Bugs:
+Spawns funny sometimes when Dying
+Bounces through ground a little.
+
+Remove skiis
 Add flat connected ground
 Fix jumping for good
 Add horizontal Scrolling

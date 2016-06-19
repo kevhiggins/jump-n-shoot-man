@@ -29,7 +29,7 @@ namespace JumpNShootMan.Game
 
     public class Man : AnimatedSprite
     {
-        public int Speed { get; } = 3;
+        public int Speed { get; } = 1;
         public int Gravity { get; } = 3;
 
         public int footContactCount = 0;
@@ -70,7 +70,7 @@ namespace JumpNShootMan.Game
 //        private const float GroundDragFactor = 0.48f;
 //        private const float AirDragFactor = 0.48f;
 
-        private const float MoveSpeed = 240;
+        private const float MoveSpeed = 120;
 
         // Constants for controlling vertical movement
         private const float MaxJumpTime = 0.2f;
@@ -214,14 +214,15 @@ namespace JumpNShootMan.Game
             Body.LinearVelocity = newVelocity;
 
 
-            if (jumpTime > 0 && isJumping)
+            if (jumpTime > 0 && !isJumping)
             {
-                Body.GravityScale = 0;
+                Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, 0);
+                jumpTime = 0;
             }
-            else
-            {
-                Body.GravityScale = 1;
-            }
+//            else
+//            {
+//                Body.GravityScale = 1;
+//            }
 
             //       newVelocity.Y = MathHelper.Clamp(newVelocity.Y, -MaxFallSpeed, MaxFallSpeed);
             //            newVelocity.Y 
@@ -340,8 +341,9 @@ namespace JumpNShootMan.Game
                     //                    velocityY = JumpLaunchVelocity * (float)(jumpTime / MaxJumpTime);
                     
                     //velocityY = JumpLaunchVelocity * elapsed;
-                    Debug.WriteLine("TESTING!");
-                    Body.ApplyLinearImpulse(new Vector2(0, -1.4f));
+
+                    Body.LinearVelocity =new Vector2(Body.LinearVelocity.X, -4);
+                    //Body.ApplyLinearImpulse(new Vector2(0, -.7f));
                 Debug.WriteLine(Body.LinearVelocity);
                 }
                 else
