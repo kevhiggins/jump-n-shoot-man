@@ -136,7 +136,7 @@ namespace JumpNShootMan
 //            Settings.TOIPositionIterations = 100;
 //            Settings.TOIVelocityIterations = 100;
 
-            world = new World(new Vector2(0f, 9.8f));
+            world = new World(new Vector2(0f, 14f));
             //Settings.MaxPolygonVertices = 8;
 //            Settings.VelocityIterations = 200;
             
