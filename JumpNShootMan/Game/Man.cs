@@ -342,7 +342,7 @@ namespace JumpNShootMan.Game
                     
                     //velocityY = JumpLaunchVelocity * elapsed;
 
-                    Body.LinearVelocity =new Vector2(Body.LinearVelocity.X, -4);
+                    Body.LinearVelocity =new Vector2(Body.LinearVelocity.X, -3.50f);
                     //Body.ApplyLinearImpulse(new Vector2(0, -.7f));
                 Debug.WriteLine(Body.LinearVelocity);
                 }

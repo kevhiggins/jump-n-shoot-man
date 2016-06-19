@@ -357,7 +357,7 @@ namespace JumpNShootMan
             sensor.OnSeparation = new OnSeparationEventHandler(man.OnFootSensorSeparationEvent);
 
             newBody.IsBullet = true;
-            newBody.LinearDamping = 2;
+//            newBody.LinearDamping = 2;
 
             return newBody;
         }
