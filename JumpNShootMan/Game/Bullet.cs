@@ -14,15 +14,13 @@ namespace JumpNShootMan.Game
     class Bullet : Sprite
     {
         public Body Body;
-        public World world;
 
         public Bullet(TextureRegion2D textureRegion) : base(textureRegion)
         {
         }
 
-        public Bullet(World world, Texture2D texture) : base(texture)
+        public Bullet(Texture2D texture) : base(texture)
         {
-            this.world = world;
         }
 
         public bool OnCollisionEvent(Fixture fixtureA, Fixture fixtureB, Contact contact)
@@ -31,7 +29,6 @@ namespace JumpNShootMan.Game
             {
                 return false;
             }
-//            world.RemoveBody(Body);
             fixtureA.Body.Dispose();
             return false;
         }

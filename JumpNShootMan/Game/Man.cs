@@ -249,7 +249,7 @@ namespace JumpNShootMan.Game
         private void ShootBullet()
         {
             var bulletTexture = new Texture2D(game.GraphicsDevice, 10, 10);
-            var bullet = new Bullet(game.world, bulletTexture);
+            var bullet = new Bullet(bulletTexture);
 
             var rectangle = new RectangleF(ConvertUnits.ToDisplayUnits(Position.X), ConvertUnits.ToDisplayUnits(Position.Y), bulletTexture.Width, bulletTexture.Height);
             var bulletBody = Game1.CreateRectangleBody(game.world, rectangle, BodyType.Dynamic, 0, bullet);
