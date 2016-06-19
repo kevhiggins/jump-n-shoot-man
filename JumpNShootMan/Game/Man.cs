@@ -58,7 +58,10 @@ namespace JumpNShootMan.Game
         private float movement;
 
         public ManDirection Direction { get; set; } = ManDirection.Right;
-        
+
+        public bool IsShooting = false;
+        public bool WasShooting = false;
+
         private bool isJumping;
         private bool wasJumping;
         private double jumpTime;
@@ -119,6 +122,12 @@ namespace JumpNShootMan.Game
             isOnGround = footContactCount > 0;
 
             Debug.WriteLine(isOnGround);
+
+            if (IsShooting && WasShooting == false)
+            {
+                ShootBullet(gameTime);
+            }
+            WasShooting = IsShooting;
 
             ApplyPhysics(gameTime);
 
@@ -237,7 +246,11 @@ namespace JumpNShootMan.Game
                 keyboardState.IsKeyDown(Keys.LeftControl) ||
                 keyboardState.IsKeyDown(Keys.RightControl))
             {
-                ShootBullet();
+                IsShooting = true;
+            }
+            else
+            {
+                IsShooting = false;
             }
 
             if (isOnGround)
@@ -268,7 +281,7 @@ namespace JumpNShootMan.Game
             Sprite.Effect = Direction == ManDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         }
 
-        private void ShootBullet()
+        private void ShootBullet(GameTime gameTime)
         {
             var bulletTexture = new Texture2D(game.GraphicsDevice, 10, 10);
             var bullet = new Bullet( bulletTexture);
