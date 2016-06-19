@@ -134,6 +134,11 @@ namespace JumpNShootMan.Game
             {
                 State = ManState.Fall;
             }
+            if (Body.LinearVelocity.Y == 0 && isOnGround == false)
+            {
+                State = ManState.Hang;
+            }
+
 
             UpdateAnimation();
           //  Debug.WriteLine(Position);
@@ -157,10 +162,10 @@ namespace JumpNShootMan.Game
 //                        Animator.Play("Jump");
 //                        break;
                     case ManState.JumpStart:
-                        Animator.Play("JumpStart", () => State = ManState.Hang);
+                        Animator.Play("JumpStart2");
                         break;
                     case ManState.Hang:
-                        Animator.Play("JumpHang");
+                        Animator.Play("Hang");
                         break;
                     case ManState.Fall:
                         Animator.Play("Fall");
@@ -218,7 +223,12 @@ namespace JumpNShootMan.Game
                 Direction = ManDirection.Right;
             }
 
-            State = (int)movement == 0 ? ManState.Idle : ManState.Walking;
+            if (isOnGround)
+            {
+                State = (int)movement == 0 ? ManState.Idle : ManState.Walking;
+            }
+
+            
 
             Sprite.Effect = Direction == ManDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         }
