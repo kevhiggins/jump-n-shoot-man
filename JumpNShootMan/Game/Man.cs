@@ -47,6 +47,8 @@ namespace JumpNShootMan.Game
         }
         bool isOnGround;
 
+        public bool WasOnGround = false;
+
         /// <summary>
         /// Current user movement input.
         /// </summary>
@@ -108,6 +110,7 @@ namespace JumpNShootMan.Game
 
         public override void Update(GameTime gameTime)
         {
+            WasOnGround = isOnGround;
             GetInput(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
 
             isOnGround = footContactCount > 0;
@@ -135,6 +138,10 @@ namespace JumpNShootMan.Game
                 State = ManState.Fall;
             }
 
+            if (WasOnGround == false && isOnGround == true)
+            {
+                State = ManState.FallEnd;
+            }
 
             UpdateAnimation();
           //  Debug.WriteLine(Position);
