@@ -18,7 +18,8 @@ namespace JumpNShootMan.Game
     public enum ManState
     {
         Idle,
-        WalkTransition,
+        WalkStartTransition,
+        WalkEndTransition,
         Walking,
 //        Jumping
         JumpStart,
@@ -163,13 +164,9 @@ namespace JumpNShootMan.Game
                     case ManState.Walking:
                         Animator.Play("Walk");
                         break;
-//                    case ManState.Jumping:
-//                        Animator.Play("Jump");
-//                        break;
                     case ManState.JumpStart:
                         var animation = Animator.Play("JumpStart2");
                         animation.IsLooping = false;
-                        
                         break;
                     case ManState.Hang:
                         Animator.Play("Hang");
@@ -180,8 +177,11 @@ namespace JumpNShootMan.Game
                     case ManState.FallEnd:
                         Animator.Play("FallEnd");
                         break;
-                    case ManState.WalkTransition:
+                    case ManState.WalkStartTransition:
                         Animator.Play("WalkTransition", () => State = ManState.Walking);
+                        break;
+                    case ManState.WalkEndTransition:
+                        Animator.Play("WalkTransition", () => State = ManState.Idle);
                         break;
                 }
             }
@@ -242,11 +242,11 @@ namespace JumpNShootMan.Game
 
             if (isOnGround)
             {
-                if (movement != 0)
+                if ((int)movement != 0)
                 {
-                    if (State == ManState.Idle || State == ManState.WalkTransition)
+                    if (State == ManState.Idle || State == ManState.WalkStartTransition)
                     {
-                        State = ManState.WalkTransition;
+                        State = ManState.WalkStartTransition;
                     }
                     else
                     {
@@ -255,7 +255,14 @@ namespace JumpNShootMan.Game
                 }
                 else
                 {
-                    State = ManState.Idle;
+                    if (State == ManState.Walking || State == ManState.WalkEndTransition)
+                    {
+                        State = ManState.WalkEndTransition;
+                    }
+                    else
+                    {
+                        State = ManState.Idle;
+                    }
                 }
             }
             Sprite.Effect = Direction == ManDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
