@@ -1,5 +1,5 @@
 {
-  "TextureAtlas": "enemy.json",
+  "TextureAtlas": "enemy-atlas.json",
   "Animations": [
     {
       "Name": "Death",
