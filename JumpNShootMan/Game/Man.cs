@@ -18,6 +18,7 @@ namespace JumpNShootMan.Game
     public enum ManState
     {
         Idle,
+        WalkTransition,
         Walking,
 //        Jumping
         JumpStart,
@@ -179,6 +180,9 @@ namespace JumpNShootMan.Game
                     case ManState.FallEnd:
                         Animator.Play("FallEnd");
                         break;
+                    case ManState.WalkTransition:
+                        Animator.Play("WalkTransition", () => State = ManState.Walking);
+                        break;
                 }
             }
             lastState = State;
@@ -238,18 +242,29 @@ namespace JumpNShootMan.Game
 
             if (isOnGround)
             {
-                State = (int)movement == 0 ? ManState.Idle : ManState.Walking;
+                if (movement != 0)
+                {
+                    if (State == ManState.Idle || State == ManState.WalkTransition)
+                    {
+                        State = ManState.WalkTransition;
+                    }
+                    else
+                    {
+                        State = ManState.Walking;
+                    }
+                }
+                else
+                {
+                    State = ManState.Idle;
+                }
             }
-
-            
-
             Sprite.Effect = Direction == ManDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         }
 
         private void ShootBullet()
         {
             var bulletTexture = new Texture2D(game.GraphicsDevice, 10, 10);
-            var bullet = new Bullet(bulletTexture);
+            var bullet = new Bullet( bulletTexture);
 
             var rectangle = new RectangleF(ConvertUnits.ToDisplayUnits(Position.X), ConvertUnits.ToDisplayUnits(Position.Y), bulletTexture.Width, bulletTexture.Height);
             var bulletBody = Game1.CreateRectangleBody(game.world, rectangle, BodyType.Dynamic, 0, bullet);
