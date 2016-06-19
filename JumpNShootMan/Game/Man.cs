@@ -134,10 +134,6 @@ namespace JumpNShootMan.Game
             {
                 State = ManState.Fall;
             }
-            if (Body.LinearVelocity.Y == 0 && isOnGround == false)
-            {
-                State = ManState.Hang;
-            }
 
 
             UpdateAnimation();
@@ -255,8 +251,7 @@ namespace JumpNShootMan.Game
 
             if (jumpTime > 0 && !isJumping)
             {
-                Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, JumpStopVelocity);
-                jumpTime = 0;
+                JumpEnd();
             }
 
             if (Body.LinearVelocity.Y == 0)
@@ -395,15 +390,21 @@ namespace JumpNShootMan.Game
                 else if(jumpTime > MaxJumpTime)
                 {
                     // Reached the apex of the jump
-                    jumpTime = 0.0f;
-                    Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, JumpStopVelocity);
-            }
+                    JumpEnd();
+                }
 
             wasJumping = isJumping;
 
             Debug.WriteLine(velocityY);
 
             return velocityY;
+        }
+
+        public void JumpEnd()
+        {
+            State = ManState.Hang;
+            jumpTime = 0.0f;
+            Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, JumpStopVelocity);
         }
 
         public bool OnFootSensorCollisionEvent(Fixture fixtureA, Fixture fixtureB, Contact contact)
