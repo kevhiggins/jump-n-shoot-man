@@ -78,7 +78,7 @@ namespace JumpNShootMan.Game
         private const float GravityAcceleration = 2000.0f;
         private const float MaxFallSpeed = 550.0f;
         private const float JumpControlPower = 0.1f;
-        private const float JumpStopVelocity = -1f;
+        private const float JumpStopVelocity = -1.5f;
 
         // Input configuration
         private const float MoveStickScale = 1.0f;
@@ -343,7 +343,7 @@ namespace JumpNShootMan.Game
                     
                     //velocityY = JumpLaunchVelocity * elapsed;
 
-                    Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, -3.50f);
+                    Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, -4.7f);
                     //Body.ApplyLinearImpulse(new Vector2(0, -.7f));
                 Debug.WriteLine(Body.LinearVelocity);
                 }
