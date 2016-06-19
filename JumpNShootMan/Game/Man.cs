@@ -158,7 +158,9 @@ namespace JumpNShootMan.Game
 //                        Animator.Play("Jump");
 //                        break;
                     case ManState.JumpStart:
-                        Animator.Play("JumpStart2");
+                        var animation = Animator.Play("JumpStart2");
+                        animation.IsLooping = false;
+                        
                         break;
                     case ManState.Hang:
                         Animator.Play("Hang");

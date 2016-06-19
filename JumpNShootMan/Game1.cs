@@ -105,6 +105,9 @@ namespace JumpNShootMan
 
             var animationGroup = Content.Load<SpriteSheetAnimationFactory>("Sprites/jumpman-animations");
 
+
+            //animationGroup.
+
             Debug.WriteLine(playerStartObject.X);
             Debug.WriteLine(playerStartObject.Y);
 
