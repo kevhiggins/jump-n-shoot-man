@@ -41,7 +41,7 @@ namespace JumpNShootMan
         public Song song;
         public SoundEffect playerDeathSting;
         public SoundEffect playerDeath;
-        World world;
+        public World world;
         Body manBody;
         private List<Body> platforms = new List<Body>();
         private Texture2D groundTexture;
@@ -284,7 +284,7 @@ namespace JumpNShootMan
             return newBody;
         }
 
-        public static Body CreateManBody(Man man, World world, RectangleF rectangle, BodyType bodyType = BodyType.Static, float density = 0, object userData = null)
+        public static Body CreateManBody(Man man, World world, RectangleF rectangle, BodyType bodyType = BodyType.Static, float density = 0)
         {
             var halfWidth = ConvertUnits.ToSimUnits(rectangle.Width / 2);
             var halfHeight = ConvertUnits.ToSimUnits(rectangle.Height / 2 - 3.5);
@@ -333,7 +333,7 @@ namespace JumpNShootMan
             var vertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
 
             var shape = new PolygonShape(vertices, density);
-            var fixture = newBody.CreateFixture(shape, userData);
+            var fixture = newBody.CreateFixture(shape, man);
             fixture.Restitution = 0;
             
 
@@ -352,12 +352,14 @@ namespace JumpNShootMan
             sensorVertices.Add(new Vector2(halfWidth * sensorWidthPadding, halfHeight));
 
             var footSensorShape = new PolygonShape(sensorVertices, density);
-            var sensor = newBody.CreateFixture(footSensorShape, userData);
+            var sensor = newBody.CreateFixture(footSensorShape, man);
             sensor.IsSensor = true;
 
 
             sensor.OnCollision = new OnCollisionEventHandler(man.OnFootSensorCollisionEvent);
             sensor.OnSeparation = new OnSeparationEventHandler(man.OnFootSensorSeparationEvent);
+
+            newBody.OnCollision += new OnCollisionEventHandler(man.OnCollisionEvent);
 
             newBody.IsBullet = true;
 //            newBody.LinearDamping = 2;
@@ -451,7 +453,7 @@ namespace JumpNShootMan
 //            var view = camera.GetViewMatrix(Vector2.One);
 
 
-        //    physicsDebug.RenderDebugData(ref proj, ref viewMatrix);
+            physicsDebug.RenderDebugData(ref proj, ref viewMatrix);
 
 
             foreach (Body body in platforms)

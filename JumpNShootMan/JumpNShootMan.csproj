@@ -40,13 +40,13 @@
   <ItemGroup>
     <Compile Include="Game1.cs" />
     <Compile Include="Game\AnimatedSprite.cs" />
+    <Compile Include="Game\Bullet.cs" />
     <Compile Include="Game\Common\RectangleExtensions.cs" />
     <Compile Include="Game\Common\VectorMath.cs" />
     <Compile Include="Game\DebugViewXNA.cs" />
     <Compile Include="Game\Man.cs" />
     <Compile Include="Game\Maps\EdgeTracer.cs" />
     <Compile Include="Game\PrimitiveBatch.cs" />
-    <Compile Include="Game\Sprite.cs" />
     <Compile Include="Game\ISprite.cs" />
     <Compile Include="Game\Tiled\TiledHelper.cs" />
     <Compile Include="Program.cs" />

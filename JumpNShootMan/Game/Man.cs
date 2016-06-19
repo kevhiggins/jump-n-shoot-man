@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Animations;
 using MonoGame.Extended.Maps.Tiled;
 using MonoGame.Extended.Animations.SpriteSheets;
+using MonoGame.Extended.Shapes;
 
 namespace JumpNShootMan.Game
 {
@@ -228,6 +229,13 @@ namespace JumpNShootMan.Game
                 Direction = ManDirection.Right;
             }
 
+            if (gamePadState.IsButtonDown(Buttons.X) ||
+                keyboardState.IsKeyDown(Keys.LeftControl) ||
+                keyboardState.IsKeyDown(Keys.RightControl))
+            {
+                ShootBullet();
+            }
+
             if (isOnGround)
             {
                 State = (int)movement == 0 ? ManState.Idle : ManState.Walking;
@@ -236,6 +244,22 @@ namespace JumpNShootMan.Game
             
 
             Sprite.Effect = Direction == ManDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+        }
+
+        private void ShootBullet()
+        {
+            var bulletTexture = new Texture2D(game.GraphicsDevice, 10, 10);
+            var bullet = new Bullet(game.world, bulletTexture);
+
+            var rectangle = new RectangleF(ConvertUnits.ToDisplayUnits(Position.X), ConvertUnits.ToDisplayUnits(Position.Y), bulletTexture.Width, bulletTexture.Height);
+            var bulletBody = Game1.CreateRectangleBody(game.world, rectangle, BodyType.Dynamic, 0, bullet);
+            bulletBody.GravityScale = 0;
+//
+//            bullet.Body = bulletBody;
+//
+            bulletBody.LinearVelocity = new Vector2(4, 0);
+            bulletBody.OnCollision += new OnCollisionEventHandler(bullet.OnCollisionEvent);
+
         }
 
 
@@ -414,6 +438,13 @@ namespace JumpNShootMan.Game
             State = ManState.Hang;
             jumpTime = 0.0f;
             Body.LinearVelocity = new Vector2(Body.LinearVelocity.X, JumpStopVelocity);
+        }
+
+        public bool OnCollisionEvent(Fixture fixtureA, Fixture fixtureB, Contact contact)
+        {
+            if (fixtureB.UserData is Bullet)
+                return false;
+            return true;
         }
 
         public bool OnFootSensorCollisionEvent(Fixture fixtureA, Fixture fixtureB, Contact contact)
