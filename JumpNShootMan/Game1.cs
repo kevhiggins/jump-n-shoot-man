@@ -131,7 +131,7 @@ namespace JumpNShootMan
             FarseerPhysics.Settings.AllowSleep = true;
             FarseerPhysics.Settings.ContinuousPhysics = false;
 
-            world = new World(new Vector2(0f, 70f));
+            world = new World(new Vector2(0f, 40f));
             Settings.MaxPolygonVertices = 12;
 
             physicsDebug = new DebugViewXNA(world);
@@ -151,6 +151,9 @@ namespace JumpNShootMan
             var edgeTracer = new EdgeTracer();
             edgeTracer.TraceEdges(tiledMap, platformLayer);
 
+
+            /*
+
             // Add platform tiles
             foreach (TiledTile tile in platformLayer.Tiles)
             {
@@ -165,6 +168,26 @@ namespace JumpNShootMan
                 var body = CreateRectangleBody(world, rectangle);
                 platforms.Add(body);
             }
+            */
+            foreach (var pointPair in edgeTracer.topEdges)
+            {
+                CreateEdge(world, tiledMap, pointPair.Item1, pointPair.Item2, TileSide.Top);
+            }
+
+            foreach (var pointPair in edgeTracer.bottomEdges)
+            {
+                CreateEdge(world, tiledMap, pointPair.Item1, pointPair.Item2, TileSide.Bottom);
+            }
+
+            foreach (var pointPair in edgeTracer.leftEdges)
+            {
+                CreateEdge(world, tiledMap, pointPair.Item1, pointPair.Item2, TileSide.Left);
+            }
+
+            foreach (var pointPair in edgeTracer.rightEdges)
+            {
+                CreateEdge(world, tiledMap, pointPair.Item1, pointPair.Item2, TileSide.Right);
+            }
 
             // Add man
             //jumpNShootMan
@@ -175,6 +198,50 @@ namespace JumpNShootMan
             jumpNShootMan.Body = manBody;
 
 
+        }
+
+        public static void CreateEdge(World world, TiledMap tiledMap, Point startPoint, Point endPoint, TileSide side)
+        {
+            Debug.WriteLine(startPoint);
+            Debug.WriteLine(endPoint);
+
+            var a = new Point(startPoint.X, startPoint.Y);
+            var b = new Point(endPoint.X, endPoint.Y);
+            var bodyStart = new Vector2();
+            
+            switch (side)
+            {
+                case TileSide.Top:
+                    // Extend on x axis one square.
+                    b.X += 1;
+                    break;
+                case TileSide.Bottom:
+                    // Extend on x axis one square.
+                    b.X += 1;
+
+                    // Move to the bottom of the block.
+                    a.Y += 1;
+
+                    bodyStart.Y = ConvertUnits.ToSimUnits(tiledMap.TileHeight);
+                    break;
+                case TileSide.Left:
+                    b.Y += 1;
+                    break;
+                case TileSide.Right:
+                    b.Y += 1;
+                    bodyStart.X = ConvertUnits.ToSimUnits(tiledMap.TileWidth);
+                    break;
+            }
+
+            var start = new Vector2(ConvertUnits.ToSimUnits(startPoint.X * tiledMap.TileWidth), ConvertUnits.ToSimUnits(startPoint.Y * tiledMap.TileHeight));
+            var end = new Vector2(ConvertUnits.ToSimUnits(b.X * tiledMap.TileWidth), ConvertUnits.ToSimUnits(b.Y * tiledMap.TileHeight));
+
+//            Debug.WriteLine(start);
+//            Debug.WriteLine(end);
+
+            Body newBody = new Body(world, bodyStart);
+            var edgeShape = new EdgeShape(start, end);
+            newBody.CreateFixture(edgeShape);
         }
 
         public static Body CreateRectangleBody(World world, RectangleF rectangle, BodyType bodyType = BodyType.Static, float density = 0, object userData = null)
@@ -214,7 +281,7 @@ namespace JumpNShootMan
 
             Body newBody = new Body(world, new Vector2(x, y), bodyType: bodyType);
 
-
+            /*
 
             var vertices = new Vertices();
             var trimCornerAmount = .03f;
@@ -224,6 +291,7 @@ namespace JumpNShootMan
             var trimCornerAmountSide = .03f;
             var slopeMultiplierXSide = 0.5f;
             var slopeMultiplerYSide = 20;
+
 
 
             // Upper left
@@ -243,6 +311,8 @@ namespace JumpNShootMan
             vertices.Add(new Vector2(-halfWidth, halfHeight - trimCornerAmount * slopeMultiplierY));
             vertices.Add(new Vector2(-halfWidth + trimCornerAmount * slopeMultiplierX, halfHeight));
 
+            */
+            var vertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
 
             var shape = new PolygonShape(vertices, density);
             newBody.CreateFixture(shape, userData);
@@ -264,17 +334,9 @@ namespace JumpNShootMan
             var sensor = newBody.CreateFixture(footSensorShape, userData);
             sensor.IsSensor = true;
 
-//            void HandleFootCollision()
-//            {
-//                
-//            }
-
-       //     OnCollisionEventHandler handler = new OnCollisionEventHandler(jumpNShootMan.OnFootSensorCollisionEvent);
 
             sensor.OnCollision = new OnCollisionEventHandler(man.OnFootSensorCollisionEvent);
             sensor.OnSeparation = new OnSeparationEventHandler(man.OnFootSensorSeparationEvent);
-
-//            sensor.OnCollision = new OnCollisionEventHandler(OnCollisionEventHandler target);
 
 //            newBody.IsBullet = true;
 

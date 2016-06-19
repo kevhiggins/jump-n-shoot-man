@@ -6,16 +6,31 @@ using MonoGame.Extended.Maps.Tiled;
 
 namespace JumpNShootMan.Game.Maps
 {
+    public enum TileSide
+    {
+        Top,
+        Bottom,
+        Left,
+        Right
+    }
+
     class EdgeTracer
     {
+
+
+        public List<Tuple<Point, Point>> topEdges;
+        public List<Tuple<Point, Point>> bottomEdges;
+        public List<Tuple<Point, Point>> leftEdges;
+        public List<Tuple<Point, Point>> rightEdges;
+
         // Create Tuple lists of the edge points of all non 0 ID tiles for the layer.
         public void TraceEdges(TiledMap map, TiledTileLayer layer)
         {
 
-            var topEdges = new List<Tuple<Point, Point>>();
-            var bottomEdges = new List<Tuple<Point, Point>>();
-            var leftEdges = new List<Tuple<Point, Point>>();
-            var rightEdges = new List<Tuple<Point, Point>>();
+            topEdges = new List<Tuple<Point, Point>>();
+            bottomEdges = new List<Tuple<Point, Point>>();
+            leftEdges = new List<Tuple<Point, Point>>();
+            rightEdges = new List<Tuple<Point, Point>>();
 
             // Find top and bottom edges
             for (var y = 0; y < map.Height; y++)
@@ -82,6 +97,7 @@ namespace JumpNShootMan.Game.Maps
             else
             {
                 // Add the edge to the list, and set previousTileEdge to false
+
                 edges.Add(new Tuple<Point, Point>(startEdgePoint, new Point(previousTile.X, previousTile.Y)));
                 previousTileHasEdge = false;
             }
