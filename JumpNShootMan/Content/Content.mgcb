@@ -161,28 +161,6 @@
 /processorParam:TextureFormat=Color
 /build:Maps/level-1/scaletest.png
 
-#begin Sprites/enemy.json
-/importer:TexturePackerJsonImporter
-/processor:TexturePackerProcessor
-/build:Sprites/enemy.json
-
-#begin Sprites/enemy.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/enemy.png
-
-#begin Sprites/enemy.aa
-/importer:AstridAnimatorImporter
-/processor:AstridAnimatorProcessor
-/build:Sprites/enemy.aa
-
 #begin Maps/level-1/enemy.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -200,4 +178,26 @@
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
 /build:Font.spritefont
+
+#begin Sprites/enemy-animations.aa
+/importer:AstridAnimatorImporter
+/processor:AstridAnimatorProcessor
+/build:Sprites/enemy-animations.aa
+
+#begin Sprites/enemy-atlas.json
+/importer:TexturePackerJsonImporter
+/processor:TexturePackerProcessor
+/build:Sprites/enemy-atlas.json
+
+#begin Sprites/enemy.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/enemy.png
 
